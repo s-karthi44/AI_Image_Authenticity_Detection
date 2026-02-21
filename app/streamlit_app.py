@@ -1,9 +1,20 @@
 import streamlit as st
+import sys
 import os
+# Fix python path for Streamlit Cloud to find our modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import torch
 from PIL import Image
-from ai_model.predict import load_model, predict_single
-from app.api.services.report_gen import generate_pdf_report
+
+try:
+    from ai_model.predict import load_model, predict_single
+    from app.api.services.report_gen import generate_pdf_report
+except ModuleNotFoundError:
+    # Fallback if working directory is slightly different
+    sys.path.append(os.getcwd())
+    from ai_model.predict import load_model, predict_single
+    from app.api.services.report_gen import generate_pdf_report
 
 # Set page config
 st.set_page_config(page_title="AI Image Authenticity Detection", page_icon="🔍", layout="wide")
