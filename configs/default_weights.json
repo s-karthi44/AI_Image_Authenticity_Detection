@@ -1,0 +1,10 @@
+{
+    "prnu_score": 0.2,
+    "pixel_noise": 0.1,
+    "frequency_analysis": 0.2,
+    "shadow_geometry": 0.1,
+    "specular_reflection": 0.1,
+    "facial_consistency": 0.1,
+    "exif_analysis": 0.1,
+    "ai_model": 0.1
+}

@@ -1,0 +1,4119 @@
+**Product Requirements Document (PRD)**
+
+**AI vs Real Human Image Detection System**
+
+**Document Information**
+
+| **Field** | **Details** |
+| --- | --- |
+| **Product Name** | AI Image Authenticity Detector |
+| **Version** | 1.0 |
+| **Date** | February 7, 2026 |
+| **Document Owner** | Product Management |
+| **Status** | Draft |
+| **Last Updated** | February 7, 2026 |
+
+**Table of Contents**
+
+- [Executive Summary](#1-executive-summary)
+- [Problem Statement](#2-problem-statement)
+- [Product Goals & Success Metrics](#3-product-goals--success-metrics)
+- [User Personas](#4-user-personas)
+- [Functional Requirements](#5-functional-requirements)
+- [Technical Architecture](#6-technical-architecture)
+- [Project Structure](#7-project-structure)
+- [Non-Functional Requirements](#8-non-functional-requirements)
+- [Data Requirements](#9-data-requirements)
+- [Testing Requirements](#10-testing-requirements)
+- [Release Plan](#11-release-plan)
+- [Risk Management](#12-risk-management)
+- [Dependencies & Integrations](#13-dependencies--integrations)
+- [Compliance & Legal](#14-compliance--legal)
+- [Documentation Requirements](#15-documentation-requirements)
+- [Budget & Resources](#16-budget--resources)
+- [Appendices](#17-appendices)
+
+**1\. Executive Summary**
+
+**1.1 Product Vision**
+
+Build a comprehensive forensic analysis system that accurately detects AI-generated human images through multi-modal technical analysis, providing explainable results to combat misinformation, identity fraud, and deepfake content.
+
+**1.2 Product Overview**
+
+The AI Image Authenticity Detector is a hybrid forensic system combining:
+
+- **Physics-based analysis** (lighting, shadows, reflections)
+- **Statistical image analysis** (noise patterns, frequency domain)
+- **Camera sensor analysis** (PRNU fingerprinting)
+- **Facial consistency checks** (anatomical correctness)
+- **Metadata inspection** (EXIF data validation)
+- **AI-based classifier** (trained CNN model)
+
+**1.3 Business Objectives**
+
+- Achieve **85%+ accuracy** in detecting AI-generated human images
+- Provide **explainable detection results** with confidence scores
+- Process images in **under 5 seconds** per analysis
+- Support **API integration** for third-party platforms
+- Build a **scalable solution** that adapts to evolving AI generation techniques
+
+**1.4 Target Market**
+
+- Social media platforms (content moderation)
+- Law enforcement agencies (digital forensics)
+- News organizations (fact-checking)
+- Financial institutions (KYC verification)
+- Dating platforms (profile verification)
+- Legal professionals (evidence authentication)
+
+**2\. Problem Statement**
+
+**2.1 Current Challenges**
+
+Modern AI image generation tools (Stable Diffusion, DALL-E 3, Midjourney, etc.) create photorealistic human images that are visually indistinguishable from real photographs. This technological advancement enables:
+
+- **Fake social media profiles** using synthetic identities
+- **Identity theft and fraud** with convincing fake documentation
+- **Misinformation campaigns** using fabricated imagery
+- **Deepfake content distribution** undermining trust
+- **Unauthorized use of synthetic identities** in financial crimes
+
+**2.2 Why Current Solutions Fall Short**
+
+- **Single-method detectors** are easily bypassed by new AI models
+- **Black-box AI classifiers** lack explainability for legal/forensic use
+- **Visual inspection** is unreliable even for experts
+- **Metadata-only checks** can be easily forged or stripped
+- **Rapid AI evolution** makes detection a moving target
+
+**2.3 Our Solution**
+
+A **multi-forensic hybrid system** that:
+
+- Combines 7 independent forensic modules + 1 AI classifier
+- Provides explainable, weighted fusion of evidence
+- Adapts through continuous model retraining
+- Operates at pixel and frequency levels beyond human perception
+- Delivers court-admissible forensic reports
+
+**3\. Product Goals & Success Metrics**
+
+**3.1 Primary Goals**
+
+- **Detect AI-generated images** with minimum 85% accuracy
+- **Minimize false positives** to below 10%
+- **Provide explainable results** for every detection
+- **Process efficiently** within 5 seconds on standard hardware
+- **Enable integration** through well-documented APIs
+
+**3.2 Key Performance Indicators (KPIs)**
+
+| **Category** | **Metric** | **Target** | **Measurement Method** |
+| --- | --- | --- | --- |
+| **Accuracy** | Overall Detection Accuracy | ≥85% | Test against labeled dataset (10K+ images) |
+|     | False Positive Rate | ≤10% | Real images incorrectly flagged as AI |
+|     | False Negative Rate | ≤15% | AI images incorrectly flagged as real |
+|     | Precision | ≥80% | True AI / (True AI + False AI) |
+|     | Recall | ≥85% | True AI / (True AI + Missed AI) |
+| **Performance** | Average Processing Time | ≤5 sec | Per image analysis (single-threaded) |
+|     | API Response Time | ≤6 sec | Including network overhead |
+|     | Throughput | 100+ img/hr | Single instance capacity |
+| **Reliability** | System Uptime | 99.5% | Monthly availability monitoring |
+|     | Error Rate | <1% | Failed processing attempts |
+| **Adoption** | Active Users (Month 3) | 1,000+ | Unique users per month |
+|     | API Calls (Month 3) | 10,000+ | Total analyses performed |
+|     | User Satisfaction | ≥4.2/5 | Post-analysis surveys |
+| **Business** | Customer Retention | ≥80% | Month-over-month retention |
+|     | API Integration Partners | 5+  | Third-party integrations |
+
+**3.3 Success Criteria by Image Type**
+
+| **Image Category** | **Expected Detection Accuracy** |
+| --- | --- |
+| Clear AI-generated images (obvious artifacts) | 95-99% |
+| High-quality AI images (advanced models) | 80-90% |
+| Real DSLR images (strong sensor noise) | 90-95% |
+| Real smartphone images | 85-92% |
+| Heavily edited real images | 70-85% |
+| Low-resolution images (<512px) | 65-80% |
+
+**4\. User Personas**
+
+**Persona 1: Content Moderator - Sarah Chen**
+
+**Demographics:**
+
+- Age: 28
+- Role: Social Media Platform Moderator
+- Experience: 3 years in content moderation
+- Technical Skill: Intermediate
+
+**Goals:**
+
+- Quickly identify fake profiles using AI-generated images
+- Reduce time spent on manual verification
+- Improve accuracy of profile authenticity checks
+- Handle high volume of daily reports (500+ profiles/day)
+
+**Pain Points:**
+
+- Manual review is time-consuming and subjective
+- Difficult to keep up with evolving AI generation quality
+- Lacks technical tools for definitive verification
+- Faces pressure to minimize false positives (user complaints)
+
+**Needs:**
+
+- Fast, automated detection (<5 seconds per image)
+- Clear confidence scores to prioritize reviews
+- Explainable results to justify moderation decisions
+- Batch processing for efficiency
+
+**Use Case:** Sarah receives a report of a suspicious profile. She uploads the profile picture to the detector, which returns an 87% confidence AI-generated verdict with reasons (no sensor noise, facial asymmetry). She removes the profile and documents the technical justification.
+
+**Persona 2: Digital Forensics Investigator - Michael Rodriguez**
+
+**Demographics:**
+
+- Age: 42
+- Role: Law Enforcement Digital Forensics Analyst
+- Experience: 15 years in forensics, 5 in digital evidence
+- Technical Skill: Advanced
+
+**Goals:**
+
+- Authenticate photographic evidence in criminal cases
+- Provide court-admissible forensic reports
+- Distinguish between edited and AI-generated images
+- Build reliable evidence chains
+
+**Pain Points:**
+
+- Needs legally defensible, explainable results
+- Cannot rely on black-box AI without understanding methodology
+- Requires detailed technical reports for expert testimony
+- Faces scrutiny from defense attorneys on methodology
+
+**Needs:**
+
+- Detailed forensic analysis reports with scientific basis
+- Module-by-module breakdown of detection logic
+- Ability to explain findings to non-technical judges/juries
+- Audit trail and reproducible results
+- References to peer-reviewed detection methods
+
+**Use Case:** Michael analyzes a suspected fake ID photo. The system provides a comprehensive report showing PRNU analysis (no camera fingerprint), FFT artifacts (diffusion model signature), and facial inconsistencies. He uses this multi-evidence report in court testimony, withstanding cross-examination by explaining each forensic technique.
+
+**Persona 3: Platform Developer - Priya Patel**
+
+**Demographics:**
+
+- Age: 31
+- Role: Senior Software Engineer at Dating App Startup
+- Experience: 7 years in web development
+- Technical Skill: Expert
+
+**Goals:**
+
+- Integrate automated verification into user onboarding
+- Reduce fake profiles on the platform
+- Minimize friction for legitimate users
+- Scale verification to handle 10,000+ daily signups
+
+**Pain Points:**
+
+- Needs easy API integration with minimal development overhead
+- Requires high uptime and reliability for production use
+- Must balance security with user experience
+- Concerned about API costs at scale
+
+**Needs:**
+
+- Well-documented RESTful API with code examples
+- SDKs for common programming languages (Python, Node.js, Java)
+- Webhook support for async processing
+- Transparent pricing based on usage
+- Rate limiting and quota management
+- Clear SLA guarantees
+
+**Use Case:** Priya integrates the API into the signup flow. When users upload a profile photo, it's sent to the detection endpoint. If flagged as AI-generated (>80% confidence), the user receives a message to upload a selfie video for additional verification. Legitimate photos are approved instantly, maintaining smooth UX.
+
+**Persona 4: Journalist/Fact-Checker - David Kim**
+
+**Demographics:**
+
+- Age: 36
+- Role: Investigative Journalist at Major News Organization
+- Experience: 10 years in journalism, 3 in fact-checking
+- Technical Skill: Beginner-Intermediate
+
+**Goals:**
+
+- Verify authenticity of images from social media sources
+- Fact-check viral images before publication
+- Maintain journalistic integrity and credibility
+- Meet tight publication deadlines
+
+**Pain Points:**
+
+- Limited technical expertise in image forensics
+- Needs quick verification without deep technical knowledge
+- Must balance speed with accuracy
+- Requires citation-worthy verification methods
+
+**Needs:**
+
+- User-friendly web interface (no coding required)
+- Clear, non-technical explanations of results
+- Ability to generate shareable verification reports
+- Citation format for published articles
+- Historical archive of verified images
+
+**Use Case:** David encounters a viral image claiming to show a public figure in a compromising situation. He uploads it to the web interface, which returns a clear verdict: "AI-Generated (92% confidence)" with plain-language reasoning. He cites the analysis in debunking the false claim.
+
+**5\. Functional Requirements**
+
+**5.1 Core Detection Modules**
+
+**F1: Image Input & Preprocessing Module**
+
+**Priority:** P0 (Must Have)  
+**Module:** preprocessing/
+
+**Requirements:**
+
+- Accept image formats: JPEG, PNG, WebP, BMP, TIFF
+- Support resolution range: 256×256 to 4096×4096 pixels
+- Automatic resolution normalization to standard processing size
+- Color space conversion (RGB, grayscale as needed)
+- Face detection and localization using MediaPipe/dlib
+- Noise-preserving preprocessing (critical for PRNU analysis)
+- Safe image loading with validation (file type, size limits)
+
+**Implementation Details:**
+
+- **File:** preprocessing/image_loader.py
+  - load_image(path): Load and validate image
+  - normalize_resolution(image, target_size=1024): Resize preserving aspect ratio
+  - convert_color_space(image, target='RGB'): Color conversion
+- **File:** preprocessing/face_detection.py
+  - detect_face(image): Return bounding box coordinates
+  - extract_facial_landmarks(image): Return 68-point landmarks
+  - crop_to_face(image, padding=0.2): Crop with context padding
+
+**Acceptance Criteria:**
+
+- All listed image formats load successfully
+- Face detection achieves >95% accuracy on frontal faces
+- Preprocessing completes in <1 second
+- Pixel-level noise preserved (verified via noise analysis)
+- Invalid/corrupted files handled gracefully with error messages
+
+**Test Cases:**
+
+- Upload 100 varied images (formats, resolutions, orientations)
+- Test with corrupted/malformed files
+- Verify noise preservation by comparing before/after preprocessing
+
+**F2: PRNU (Photo Response Non-Uniformity) Detection**
+
+**Priority:** P0 (Must Have)  
+**Module:** detectors/prnu_detector.py
+
+**Background:** Every camera sensor has a unique noise pattern (fingerprint) caused by manufacturing imperfections. Real photos contain this fingerprint; AI-generated images do not.
+
+**Requirements:**
+
+- Extract sensor noise fingerprint from image
+- Apply high-pass filtering to isolate noise from content
+- Use wavelet-based denoising (DWT)
+- Calculate noise residual patterns
+- Compare against expected sensor noise characteristics
+- Generate PRNU confidence score (0.0 = no sensor noise, 1.0 = strong sensor noise)
+
+**Algorithm:**
+
+1\. Convert image to grayscale
+
+2\. Apply high-pass filter (removes content, keeps noise)
+
+3\. Apply wavelet denoising
+
+4\. Extract noise residual
+
+5\. Calculate entropy and randomness of residual
+
+6\. Compare to reference sensor noise patterns
+
+7\. Output PRNU score
+
+**Implementation Details:**
+
+- **File:** detectors/prnu_detector.py
+  - extract_noise_residual(image): High-pass filtering + wavelet denoising
+  - calculate_prnu_score(residual): Entropy and pattern analysis
+  - detect_sensor_fingerprint(image): Main detection function
+
+**Expected Outputs:**
+
+- DSLR images: PRNU score 0.7-0.95
+- Smartphone images: PRNU score 0.5-0.8
+- AI-generated images: PRNU score 0.0-0.3
+
+**Acceptance Criteria:**
+
+- DSLR images score >0.7 on average
+- AI-generated images score <0.3 on average
+- Processing time <2 seconds per image
+- Clear separation between real and AI distributions
+
+**Dependencies:**
+
+- NumPy, SciPy (signal processing)
+- PyWavelets (wavelet transforms)
+
+**F3: Pixel Noise Statistical Analysis**
+
+**Priority:** P0 (Must Have)  
+**Module:** detectors/pixel_noise.py
+
+**Background:** Natural camera noise is random and chaotic. AI-generated images often have artificially smooth or patterned noise.
+
+**Requirements:**
+
+- Analyze pixel-level noise distribution
+- Calculate statistical measures:
+  - Entropy (randomness)
+  - Standard deviation
+  - Uniformity
+  - Autocorrelation
+- Detect artificial smoothness or repetitive patterns
+- Generate noise naturalness score (0.0 = artificial, 1.0 = natural)
+
+**Algorithm:**
+
+1\. Extract high-frequency noise component
+
+2\. Calculate entropy across color channels
+
+3\. Compute spatial autocorrelation
+
+4\. Measure uniformity of noise distribution
+
+5\. Compare to natural noise characteristics
+
+6\. Output naturalness score
+
+**Implementation Details:**
+
+- **File:** detectors/pixel_noise.py
+  - extract_noise(image): High-frequency component extraction
+  - calculate_entropy(noise): Shannon entropy
+  - analyze_uniformity(noise): Distribution analysis
+  - compute_naturalness_score(image): Main scoring function
+
+**Expected Outputs:**
+
+- Real images: Naturalness score 0.6-0.95
+- AI images (smooth): Naturalness score 0.1-0.4
+- Heavily compressed real images: 0.4-0.7
+
+**Acceptance Criteria:**
+
+- Natural noise patterns score >0.6
+- Artificial patterns score <0.4
+- Analysis completes in <1 second
+- Robust to JPEG compression artifacts
+
+**F4: Frequency Domain Analysis (FFT)**
+
+**Priority:** P0 (Must Have)  
+**Module:** detectors/frequency_analysis.py
+
+**Background:** AI generation models (especially diffusion models and GANs) leave characteristic frequency-domain signatures. Real camera images have smooth frequency decay.
+
+**Requirements:**
+
+- Perform 2D Fast Fourier Transform (FFT)
+- Analyze frequency spectrum patterns
+- Detect periodic artifacts (grid patterns, repetitive frequencies)
+- Identify GAN/diffusion model signatures:
+  - Checkerboard artifacts
+  - Spectral peaks at specific frequencies
+  - Unnatural frequency concentrations
+- Generate frequency artifact score (0.0 = clean, 1.0 = artifacts detected)
+
+**Algorithm:**
+
+1\. Convert image to grayscale
+
+2\. Apply 2D FFT
+
+3\. Compute magnitude spectrum
+
+4\. Normalize and log-scale
+
+5\. Detect periodic peaks
+
+6\. Compare to expected natural frequency decay
+
+7\. Output artifact score
+
+**Implementation Details:**
+
+- **File:** detectors/frequency_analysis.py
+  - compute_fft(image): 2D FFT computation
+  - analyze_spectrum(fft_result): Peak detection
+  - detect_periodic_artifacts(spectrum): Grid/pattern detection
+  - calculate_artifact_score(image): Main scoring function
+
+**Expected Outputs:**
+
+- Real images: Artifact score 0.0-0.3
+- Diffusion model images: Artifact score 0.6-0.9
+- GAN images: Artifact score 0.5-0.85
+
+**Acceptance Criteria:**
+
+- Diffusion model artifacts detected with >75% accuracy
+- Real images show smooth frequency decay
+- Analysis completes in <1.5 seconds
+- Visualization of frequency spectrum available for debugging
+
+**Dependencies:**
+
+- NumPy (FFT functions)
+- SciPy (signal processing)
+- Matplotlib (optional, for visualization)
+
+**F5: Shadow Geometry Analysis**
+
+**Priority:** P1 (Should Have)  
+**Module:** detectors/shadow_geometry.py
+
+**Background:** In physically consistent lighting, all shadows should point away from a single light source. AI models sometimes generate inconsistent shadow directions.
+
+**Requirements:**
+
+- Detect facial shadows (nose, cheek, chin, neck)
+- Calculate shadow direction vectors
+- Verify consistency with single light source hypothesis
+- Check for physically impossible shadows:
+  - Multiple conflicting directions
+  - Missing expected shadows
+  - Shadows inconsistent with highlights
+- Generate shadow consistency score (0.0 = inconsistent, 1.0 = consistent)
+
+**Algorithm:**
+
+1\. Detect face and facial landmarks
+
+2\. Identify shadow regions using edge detection and intensity analysis
+
+3\. Calculate gradient directions in shadow areas
+
+4\. Estimate light source position from shadow vectors
+
+5\. Check consistency across multiple shadow locations
+
+6\. Output consistency score
+
+**Implementation Details:**
+
+- **File:** detectors/shadow_geometry.py
+  - detect_shadows(image, face_landmarks): Shadow region detection
+  - calculate_shadow_vectors(shadows): Direction computation
+  - estimate_light_source(vectors): Light position estimation
+  - verify_consistency(light_source, shadows): Consistency check
+  - compute_shadow_score(image): Main scoring function
+
+**Expected Outputs:**
+
+- Physically consistent shadows: Score 0.7-1.0
+- Minor inconsistencies: Score 0.4-0.7
+- Major inconsistencies (AI artifact): Score 0.0-0.4
+
+**Acceptance Criteria:**
+
+- Consistent shadows score >0.7
+- Inconsistent shadows detected and scored <0.4
+- Works under various lighting conditions (front, side, top)
+- Gracefully handles images without clear shadows
+
+**Limitations:**
+
+- May produce false positives in complex multi-light scenarios
+- Less reliable in evenly lit (studio) conditions
+- Requires clear facial shadows to be effective
+
+**F6: Specular Reflection Analysis**
+
+**Priority:** P1 (Should Have)  
+**Module:** detectors/specular_reflection.py
+
+**Background:** Light reflections (highlights) in eyes and on skin should be consistent with a single light source. AI models may generate mismatched or physically impossible reflections.
+
+**Requirements:**
+
+- Detect specular highlights in eyes (catchlights)
+- Detect skin reflections (forehead, nose, cheeks)
+- Verify reflection positions are consistent with single light source
+- Check for mismatched reflection patterns between eyes
+- Detect unnatural or duplicated reflections
+- Generate reflection consistency score (0.0 = inconsistent, 1.0 = consistent)
+
+**Algorithm:**
+
+1\. Detect eyes using facial landmarks
+
+2\. Extract eye regions and detect bright spots (catchlights)
+
+3\. Compare catchlight positions between left and right eyes
+
+4\. Detect skin reflections on face
+
+5\. Verify all reflections consistent with single light direction
+
+6\. Output consistency score
+
+**Implementation Details:**
+
+- **File:** detectors/specular_reflection.py
+  - detect_eye_catchlights(image, eye_landmarks): Highlight detection
+  - compare_bilateral_reflections(left_eye, right_eye): Symmetry check
+  - detect_skin_reflections(image, face_region): Forehead/nose highlights
+  - verify_reflection_consistency(reflections): Cross-validation
+  - compute_reflection_score(image): Main scoring function
+
+**Expected Outputs:**
+
+- Consistent reflections: Score 0.6-1.0
+- Minor inconsistencies: Score 0.4-0.6
+- Major inconsistencies (AI artifact): Score 0.0-0.4
+
+**Acceptance Criteria:**
+
+- Consistent reflections score >0.6
+- Mismatched reflections detected
+- Analysis completes in <1 second
+- Robust to varying light intensities
+
+**Edge Cases:**
+
+- Images without clear reflections (low light, matte skin)
+- Glasses that obscure eyes
+- Closed or partially closed eyes
+
+**F7: Facial Inconsistency Detection**
+
+**Priority:** P0 (Must Have)  
+**Module:** detectors/facial_consistency.py
+
+**Background:** AI models sometimes generate anatomically incorrect or asymmetric facial features that violate biological norms.
+
+**Requirements:**
+
+- Detect 68+ facial landmarks (MediaPipe or dlib)
+- Measure bilateral symmetry:
+  - Eye size and shape
+  - Eyebrow position
+  - Ear structure and position
+  - Nostril alignment
+- Check for anatomical impossibilities:
+  - Unnaturally perfect teeth alignment
+  - Impossible eye spacing
+  - Mismatched earrings or accessories
+  - Inconsistent hair patterns
+- Flag suspicious perfect symmetry (uncommon in real faces)
+- Generate facial consistency score (0.0 = many inconsistencies, 1.0 = anatomically correct)
+
+**Algorithm:**
+
+1\. Detect facial landmarks
+
+2\. Calculate symmetry metrics:
+
+\- Distance ratios (eye-to-eye, nose-to-mouth, etc.)
+
+\- Shape comparisons (left vs right eye)
+
+\- Alignment checks
+
+3\. Compare to biological norms and variance
+
+4\. Flag extreme symmetry (AI artifact)
+
+5\. Output consistency score
+
+**Implementation Details:**
+
+- **File:** detectors/facial_consistency.py
+  - extract_landmarks(image): 68-point landmark detection
+  - calculate_symmetry_metrics(landmarks): Bilateral comparison
+  - check_anatomical_correctness(landmarks): Norm validation
+  - detect_perfect_symmetry(metrics): Suspiciously perfect features
+  - compute_facial_score(image): Main scoring function
+
+**Expected Outputs:**
+
+- Real faces (natural asymmetry): Score 0.6-0.9
+- AI faces (over-symmetry or inconsistencies): Score 0.2-0.5
+- Extreme AI artifacts: Score 0.0-0.3
+
+**Acceptance Criteria:**
+
+- Asymmetry >20% in key features triggers low score
+- Perfect symmetry (AI indicator) triggers suspicion
+- Analysis completes in <1 second
+- Robust to head rotation (±15 degrees)
+
+**Dependencies:**
+
+- MediaPipe or dlib (landmark detection)
+- NumPy (geometric calculations)
+
+**F8: EXIF Metadata Analysis**
+
+**Priority:** P1 (Should Have)  
+**Module:** detectors/exif_analysis.py
+
+**Background:** Real camera photos contain EXIF metadata (camera make/model, settings, timestamp). AI-generated images typically lack this or have generic software tags.
+
+**Requirements:**
+
+- Extract EXIF data from image file
+- Verify presence of camera metadata:
+  - Camera make and model
+  - Lens information
+  - ISO, aperture, shutter speed
+  - GPS coordinates (optional)
+  - Timestamp
+  - Software/editing tools
+- Detect signs of metadata tampering:
+  - Inconsistent timestamps
+  - Missing expected fields
+  - Generic software tags (Photoshop, GIMP without camera data)
+- Generate metadata authenticity score (0.0 = no camera data, 1.0 = complete camera data)
+
+**Algorithm:**
+
+1\. Read EXIF data from image
+
+2\. Check for camera-specific fields
+
+3\. Validate timestamp consistency
+
+4\. Cross-check software tags
+
+5\. Detect common AI generation software signatures
+
+6\. Output authenticity score
+
+**Implementation Details:**
+
+- **File:** detectors/exif_analysis.py
+  - extract_exif(image_path): Read all EXIF tags
+  - check_camera_metadata(exif_data): Verify camera fields
+  - detect_tampering_signs(exif_data): Inconsistency checks
+  - identify_generation_software(exif_data): AI tool detection
+  - compute_metadata_score(image_path): Main scoring function
+
+**Expected Outputs:**
+
+- Real camera images: Score 0.7-1.0
+- Edited real images: Score 0.4-0.8
+- AI-generated images: Score 0.0-0.3
+
+**Acceptance Criteria:**
+
+- Real camera images have complete metadata (score >0.7)
+- AI images lack camera metadata (score <0.3)
+- Basic tampering detection implemented
+- Processing time <0.5 seconds
+
+**Limitations:**
+
+- Metadata can be stripped from real images
+- Metadata can be forged (though difficult to fake all fields correctly)
+- This module provides supporting evidence, not definitive proof
+
+**Dependencies:**
+
+- Pillow (PIL.Image.getexif)
+- ExifRead (alternative library)
+
+**F9: AI Detector CNN Model**
+
+**Priority:** P0 (Must Have)  
+**Module:** ai_model/
+
+**Background:** A trained convolutional neural network learns to recognize subtle AI generation fingerprints that may not be captured by rule-based forensics.
+
+**Requirements:**
+
+- Train CNN on labeled dataset (real vs AI images)
+- Support detection of multiple AI generation models:
+  - Stable Diffusion (all versions)
+  - DALL-E 2/3
+  - Midjourney
+  - GAN-based models
+- Generate AI probability score (0.0 = real, 1.0 = AI-generated)
+- Provide feature visualization for explainability
+- Support model updates with new AI samples (continuous learning)
+
+**Model Architecture:**
+
+Base: ResNet50 or EfficientNet-B3 (pretrained on ImageNet)
+
+↓
+
+Global Average Pooling
+
+↓
+
+Dense Layer (512 units, ReLU)
+
+↓
+
+Dropout (0.5)
+
+↓
+
+Dense Layer (256 units, ReLU)
+
+↓
+
+Dropout (0.3)
+
+↓
+
+Output Layer (1 unit, Sigmoid) → AI probability
+
+**Training Requirements:**
+
+- **Dataset Size:** 50,000+ images (balanced 50/50 real/AI)
+- **Real Images:**
+  - DSLR photos (Canon, Nikon, Sony)
+  - Smartphone photos (iPhone, Samsung, Google Pixel)
+  - Various subjects, lighting, environments
+  - Diverse demographics
+- **AI Images:**
+  - Stable Diffusion 1.5, 2.0, XL
+  - DALL-E 2, DALL-E 3
+  - Midjourney v4, v5, v6
+  - StyleGAN, ProGAN
+- **Validation Split:** 80% train, 10% validation, 10% test
+- **Target Accuracy:** >85% on held-out test set
+
+**Implementation Details:**
+
+- **File:** ai_model/model.py
+  - AIDetectorModel(base_model='resnet50'): Model definition
+  - build_model(): Architecture construction
+  - load_pretrained_weights(): Load base model
+- **File:** ai_model/train.py
+  - prepare_dataset(): Data loading and augmentation
+  - train_model(epochs=50, batch_size=32): Training loop
+  - evaluate_model(test_data): Performance metrics
+  - save_model(path): Export trained weights
+- **File:** ai_model/predict.py
+  - load_model(path): Load trained model
+  - preprocess_image(image): Input preparation
+  - predict_single(image): Single image inference
+  - predict_batch(images): Batch inference
+
+**Data Augmentation (Training Only):**
+
+- Random rotation (±15°)
+- Random brightness/contrast adjustment
+- Random horizontal flip
+- Random crop and resize
+- Color jittering
+
+**Acceptance Criteria:**
+
+- Model achieves >85% accuracy on test set
+- Precision >80%, Recall >85%
+- Inference time <2 seconds per image
+- Model size <200MB for deployment
+- Gradient-based visualization (Grad-CAM) for explainability
+
+**Dependencies:**
+
+- PyTorch or TensorFlow
+- torchvision (pretrained models)
+- OpenCV (preprocessing)
+
+**F10: Decision Fusion Engine**
+
+**Priority:** P0 (Must Have)  
+**Module:** fusion/decision_engine.py
+
+**Background:** Combines scores from all forensic modules using weighted fusion to produce final verdict and confidence score.
+
+**Requirements:**
+
+- Accept scores from all 7 forensic modules + AI model
+- Apply weighted combination formula
+- Generate final classification: **Real**, **AI-Generated**, or **Uncertain**
+- Calculate overall confidence percentage
+- Provide detailed reasoning breakdown
+- Support configurable weights for different use cases
+
+**Fusion Formula:**
+
+Final Score =
+
+w1 × PRNU +
+
+w2 × Frequency +
+
+w3 × Pixel Noise +
+
+w4 × Facial Consistency +
+
+w5 × Shadow +
+
+w6 × Reflection +
+
+w7 × Metadata +
+
+w8 × AI Model
+
+Default Weights:
+
+w1 = 0.20 (PRNU - strong indicator)
+
+w2 = 0.15 (Frequency)
+
+w3 = 0.10 (Pixel Noise)
+
+w4 = 0.10 (Facial)
+
+w5 = 0.10 (Shadow)
+
+w6 = 0.10 (Reflection)
+
+w7 = 0.05 (Metadata - easily forged)
+
+w8 = 0.20 (AI Model - learned patterns)
+
+**Classification Thresholds:**
+
+- **AI-Generated:** Final Score < 0.40
+- **Uncertain:** 0.40 ≤ Final Score ≤ 0.60
+- **Real:** Final Score > 0.60
+
+**Reasoning Logic:** Generate natural language explanation based on strongest indicators:
+
+- If PRNU < 0.3: "No camera sensor noise detected"
+- If Frequency > 0.7: "Frequency artifacts characteristic of AI generation"
+- If Facial < 0.4: "Facial inconsistencies or unnatural symmetry"
+- If AI Model > 0.8: "Strong AI fingerprint detected by neural network"
+
+**Implementation Details:**
+
+- **File:** fusion/decision_engine.py
+  - DecisionEngine(weights=default_weights): Initialize with weights
+  - fuse_scores(scores_dict): Weighted combination
+  - classify(final_score): Apply thresholds
+  - generate_reasoning(scores_dict, verdict): Explanation generation
+  - compute_confidence(final_score): Confidence percentage
+  - analyze(scores_dict): Main analysis function
+
+**Output Format:**
+
+python
+
+{
+
+"verdict": "AI_GENERATED", # or "REAL" or "UNCERTAIN"
+
+"confidence": 84, # percentage
+
+"final_score": 0.32, # raw fusion score
+
+"scores": {
+
+"prnu": 0.15,
+
+"frequency": 0.75,
+
+"pixel_noise": 0.30,
+
+"facial": 0.40,
+
+"shadow": 0.28,
+
+"reflection": 0.35,
+
+"metadata": 0.20,
+
+"ai_model": 0.78
+
+},
+
+"reasoning": \[
+
+"No camera sensor noise detected",
+
+"Frequency artifacts observed",
+
+"Facial symmetry inconsistencies",
+
+"AI detector confidence high"
+
+\]
+
+}
+
+**Acceptance Criteria:**
+
+- Weighted fusion improves accuracy vs single best method by >10%
+- Clear classification for >80% of images (not uncertain)
+- Reasoning includes top 3-5 most significant indicators
+- Confidence score correlates with actual accuracy (calibration)
+- Processing time <0.1 seconds
+
+**Alternative Weight Profiles:**
+
+python
+
+\# Conservative (minimize false positives)
+
+conservative_weights = {
+
+'prnu': 0.25,
+
+'frequency': 0.20,
+
+'ai_model': 0.25,
+
+'pixel_noise': 0.10,
+
+'facial': 0.10,
+
+'shadow': 0.05,
+
+'reflection': 0.05,
+
+'metadata': 0.00
+
+}
+
+\# Forensic (legal use - explainable only)
+
+forensic_weights = {
+
+'prnu': 0.30,
+
+'frequency': 0.25,
+
+'pixel_noise': 0.15,
+
+'facial': 0.15,
+
+'shadow': 0.10,
+
+'reflection': 0.05,
+
+'metadata': 0.00,
+
+'ai_model': 0.00 # exclude black-box model
+
+}
+
+\`\`\`
+
+\---
+
+\### 5.2 User Interface Requirements
+
+\#### F11: Web Application Interface
+
+\*\*Priority:\*\* P1 (Should Have)
+
+\*\*Module:\*\* \`app/streamlit_app.py\`
+
+\*\*Requirements:\*\*
+
+\*\*Landing Page:\*\*
+
+\- Product overview and value proposition
+
+\- Quick start guide
+
+\- Example images with results
+
+\- "Try It Now" call-to-action
+
+\*\*Upload Interface:\*\*
+
+\- Drag-and-drop zone for single image
+
+\- File browser button
+
+\- Supported formats displayed (JPEG, PNG, WebP)
+
+\- File size limit: 10MB
+
+\- Batch upload: up to 10 images simultaneously
+
+\- Upload progress indicator
+
+\*\*Processing View:\*\*
+
+\- Real-time status updates:
+
+\- "Preprocessing image..."
+
+\- "Analyzing camera sensor noise..."
+
+\- "Checking facial consistency..."
+
+\- etc.
+
+\- Progress bar (0-100%)
+
+\- Estimated time remaining
+
+\- Option to cancel analysis
+
+\*\*Results Dashboard:\*\*
+
+\*\*Primary Verdict Display:\*\*
+
+\`\`\`
+
+\[Large badge icon\]
+
+AI-GENERATED IMAGE
+
+Confidence: 84%
+
+\`\`\`
+
+\*\*Detailed Scores Visualization:\*\*
+
+\- Horizontal bar chart showing all 8 module scores
+
+\- Color coding:
+
+\- Green (>0.6): Indicates real image
+
+\- Red (<0.4): Indicates AI image
+
+\- Yellow (0.4-0.6): Uncertain
+
+\- Interactive tooltips explaining each score
+
+\*\*Reasoning Section:\*\*
+
+\`\`\`
+
+Why this verdict?
+
+✓ No camera sensor noise detected
+
+✓ Frequency artifacts observed
+
+✓ Facial symmetry inconsistencies
+
+✓ AI detector confidence high
+
+**Visual Analysis (Optional):**
+
+- Heatmap overlay showing suspicious regions
+- Side-by-side comparison with detected artifacts highlighted
+
+**Action Buttons:**
+
+- Download detailed report (PDF)
+- Share results (URL)
+- Analyze another image
+- Export data (JSON)
+
+**Batch Results View:**
+
+- Grid or table showing all analyzed images
+- Summary statistics (X% AI, Y% Real, Z% Uncertain)
+- Ability to filter and sort results
+- Bulk export option
+
+**Additional Features:**
+
+- Dark mode toggle
+- Settings panel:
+  - Weight customization (advanced users)
+  - Threshold adjustment
+  - Enable/disable specific modules
+- Help/FAQ section
+- Contact support
+
+**Acceptance Criteria:**
+
+- Intuitive interface requiring <3 clicks to get results
+- Mobile responsive design (works on tablets/phones)
+- Load time <2 seconds
+- No technical jargon in default view (expert mode available)
+- Accessibility compliant (WCAG 2.1 AA)
+
+**Technology Stack:**
+
+- Streamlit (rapid prototyping) or React.js (production)
+- Chart.js or D3.js (visualizations)
+- Bootstrap or Tailwind CSS (styling)
+
+**F12: REST API**
+
+**Priority:** P0 (Must Have)  
+**Module:** Backend API service
+
+**Base URL:** <https://api.aidetector.com/v1>
+
+**Authentication:**
+
+- API Key in header: Authorization: Bearer YOUR_API_KEY
+- Rate limiting: 100 requests/hour (free tier), 1000/hour (pro tier)
+
+**Endpoints:**
+
+**POST /analyze**
+
+Analyze a single image.
+
+**Request:**
+
+json
+
+POST /api/v1/analyze
+
+Content-Type: multipart/form-data
+
+{
+
+"image": &lt;binary file&gt;,
+
+"options": {
+
+"include_reasoning": true,
+
+"include_visualizations": false,
+
+"weight_profile": "default" // or "conservative", "forensic"
+
+}
+
+}
+
+**Response (200 OK):**
+
+json
+
+{
+
+"image_id": "img_7a8f9b2c",
+
+"verdict": "AI_GENERATED",
+
+"confidence": 84,
+
+"final_score": 0.32,
+
+"processing_time": 4.2,
+
+"scores": {
+
+"prnu": 0.15,
+
+"frequency": 0.75,
+
+"pixel_noise": 0.30,
+
+"facial": 0.40,
+
+"shadow": 0.28,
+
+"reflection": 0.35,
+
+"metadata": 0.20,
+
+"ai_model": 0.78
+
+},
+
+"reasoning": \[
+
+"No camera sensor noise detected",
+
+"Frequency artifacts observed",
+
+"Facial symmetry inconsistencies",
+
+"AI detector confidence high"
+
+\],
+
+"timestamp": "2026-02-07T14:23:45Z"
+
+}
+
+**Error Response (400 Bad Request):**
+
+json
+
+{
+
+"error": "INVALID_IMAGE_FORMAT",
+
+"message": "Unsupported file type. Please upload JPEG, PNG, or WebP.",
+
+"code": 400
+
+}
+
+**POST /analyze/batch**
+
+Analyze multiple images in one request.
+
+**Request:**
+
+json
+
+POST /api/v1/analyze/batch
+
+Content-Type: multipart/form-data
+
+{
+
+"images": \[&lt;file1&gt;, &lt;file2&gt;, ...\], // up to 10 files
+
+"options": { ... }
+
+}
+
+**Response (200 OK):**
+
+json
+
+{
+
+"batch_id": "batch_9x3k2f",
+
+"total_images": 5,
+
+"results": \[
+
+{ "image_id": "img_1", "verdict": "REAL", ... },
+
+{ "image_id": "img_2", "verdict": "AI_GENERATED", ... },
+
+...
+
+\],
+
+"summary": {
+
+"ai_generated": 2,
+
+"real": 2,
+
+"uncertain": 1
+
+}
+
+}
+
+**GET /status/{image_id}**
+
+Check processing status (for async mode).
+
+**Response:**
+
+json
+
+{
+
+"image_id": "img_7a8f9b2c",
+
+"status": "PROCESSING", // or "COMPLETED", "FAILED"
+
+"progress": 65,
+
+"estimated_time_remaining": 1.5
+
+}
+
+**GET /report/{image_id}**
+
+Download detailed PDF report.
+
+**Response:** Binary PDF file
+
+**GET /usage**
+
+Get API usage statistics for authenticated user.
+
+**Response:**
+
+json
+
+{
+
+"requests_today": 45,
+
+"requests_this_month": 892,
+
+"quota_limit": 1000,
+
+"remaining_quota": 108
+
+}
+
+\`\`\`
+
+\---
+
+\*\*Rate Limiting:\*\*
+
+\- Header: \`X-RateLimit-Limit: 100\`
+
+\- Header: \`X-RateLimit-Remaining: 73\`
+
+\- Header: \`X-RateLimit-Reset: 1675789200\` (Unix timestamp)
+
+\*\*Error Codes:\*\*
+
+\- 400: Bad Request (invalid image format, size)
+
+\- 401: Unauthorized (missing/invalid API key)
+
+\- 429: Too Many Requests (rate limit exceeded)
+
+\- 500: Internal Server Error
+
+\- 503: Service Unavailable
+
+\*\*Acceptance Criteria:\*\*
+
+\- \[ \] All endpoints fully functional and tested
+
+\- \[ \] Response time <6 seconds for /analyze
+
+\- \[ \] Comprehensive error handling
+
+\- \[ \] OpenAPI/Swagger documentation available
+
+\- \[ \] SDKs provided for Python, Node.js, Java
+
+\---
+
+\### 5.3 Reporting & Export Features
+
+\#### F13: Detailed PDF Report Generation
+
+\*\*Priority:\*\* P1 (Should Have)
+
+\*\*Requirements:\*\*
+
+\- Generate professional PDF report for each analysis
+
+\- Include all scores, reasoning, and metadata
+
+\- Suitable for legal/forensic use (court submissions)
+
+\- Branded with system logo and version
+
+\*\*Report Structure:\*\*
+
+\`\`\`
+
+Page 1: Executive Summary
+
+\- Verdict (large, prominent)
+
+\- Confidence score
+
+\- Key findings (bullet points)
+
+\- Image thumbnail
+
+Page 2: Detailed Analysis
+
+\- All module scores (table format)
+
+\- Reasoning breakdown
+
+\- Technical methodology summary
+
+Page 3: Visual Evidence
+
+\- Original image
+
+\- Heatmaps/highlighted suspicious regions
+
+\- Comparison charts
+
+Page 4: Metadata
+
+\- EXIF data table
+
+\- Processing timestamp
+
+\- System version
+
+\- Disclaimer and limitations
+
+Page 5: Appendix (optional)
+
+\- Glossary of terms
+
+\- Reference to methodology papers
+
+\- Contact information
+
+**Acceptance Criteria:**
+
+- PDF generated in <3 seconds
+- Professional formatting and layout
+- File size <5MB
+- Includes watermark: "Generated by AI Image Detector v1.0"
+
+**Dependencies:**
+
+- ReportLab or WeasyPrint (PDF generation)
+
+**F14: Data Export (JSON/CSV)**
+
+**Priority:** P2 (Nice to Have)
+
+**Requirements:**
+
+- Export results in machine-readable formats
+- Support for data pipelines and analytics
+
+**JSON Export:**
+
+json
+
+{
+
+"metadata": {
+
+"export_date": "2026-02-07T15:30:00Z",
+
+"system_version": "1.0.0",
+
+"total_images": 1
+
+},
+
+"results": \[ ... \] // full analysis data
+
+}
+
+\`\`\`
+
+\*\*CSV Export (for batch results):\*\*
+
+\`\`\`
+
+image_id,verdict,confidence,prnu,frequency,pixel_noise,...
+
+img_001,AI_GENERATED,84,0.15,0.75,0.30,...
+
+img_002,REAL,91,0.87,0.22,0.78,...
+
+\`\`\`
+
+\---
+
+\### 5.4 Administrative Features
+
+\#### F15: Model Management Dashboard (Admin Only)
+
+\*\*Priority:\*\* P2 (Nice to Have)
+
+\*\*Requirements:\*\*
+
+\- View current model performance metrics
+
+\- Upload new training data
+
+\- Trigger model retraining
+
+\- A/B test different fusion weight profiles
+
+\- Monitor detection accuracy over time
+
+\- Compare model versions
+
+\*\*Features:\*\*
+
+\- Performance charts (accuracy, precision, recall over time)
+
+\- Confusion matrix visualization
+
+\- ROC curve analysis
+
+\- Weight configuration interface
+
+\- Model versioning and rollback
+
+\*\*Acceptance Criteria:\*\*
+
+\- \[ \] Admin authentication required
+
+\- \[ \] Real-time metrics dashboard
+
+\- \[ \] Ability to retrain model with one click
+
+\- \[ \] Model comparison tools
+
+\---
+
+\#### F16: Audit Logging
+
+\*\*Priority:\*\* P1 (Should Have)
+
+\*\*Requirements:\*\*
+
+\- Log all image analyses for compliance and debugging
+
+\- Track API usage per client
+
+\- Record system performance metrics
+
+\- Enable forensic audit trails
+
+\*\*Logged Data:\*\*
+
+\- Timestamp
+
+\- User/API key
+
+\- Image ID (hash)
+
+\- Analysis results
+
+\- Processing time
+
+\- IP address
+
+\- System version
+
+\*\*Retention:\*\*
+
+\- Logs: 1 year
+
+\- Image metadata: 30 days (configurable)
+
+\- Actual images: Deleted after 24 hours (unless user opts to save)
+
+\*\*Acceptance Criteria:\*\*
+
+\- \[ \] All API calls logged
+
+\- \[ \] Searchable audit interface
+
+\- \[ \] Export logs to CSV
+
+\- \[ \] Automated log rotation
+
+\---
+
+\## 6. Technical Architecture
+
+\### 6.1 System Architecture Overview
+
+\`\`\`
+
+┌─────────────────────────────────────────────────────────────┐
+
+│ Client Layer │
+
+│ ┌─────────────┐ ┌─────────────┐ ┌──────────────────┐ │
+
+│ │ Web UI │ │ Mobile App │ │ API Clients │ │
+
+│ │ (React.js) │ │ (Future) │ │ (SDK/cURL) │ │
+
+│ └─────────────┘ └─────────────┘ └──────────────────┘ │
+
+└────────────┬────────────────────────────────────────────────┘
+
+│ HTTPS / REST API
+
+▼
+
+┌─────────────────────────────────────────────────────────────┐
+
+│ API Gateway Layer │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ Nginx / Load Balancer │ │
+
+│ │ - Rate Limiting │ │
+
+│ │ - Authentication (API Keys) │ │
+
+│ │ - Request Routing │ │
+
+│ └──────────────────────────────────────────────────────┘ │
+
+└────────────┬────────────────────────────────────────────────┘
+
+│
+
+▼
+
+┌─────────────────────────────────────────────────────────────┐
+
+│ Application Layer (FastAPI) │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ API Endpoints │ │
+
+│ │ /analyze, /batch, /status, /report │ │
+
+│ └─────────────┬────────────────────────────────────────┘ │
+
+│ │ │
+
+│ ▼ │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ Preprocessing Service │ │
+
+│ │ - Image validation & loading │ │
+
+│ │ - Face detection │ │
+
+│ │ - Resolution normalization │ │
+
+│ └─────────────┬────────────────────────────────────────┘ │
+
+│ │ │
+
+│ ▼ │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ Forensic Analysis Services (Parallel) │ │
+
+│ │ ┌──────────┐ ┌──────────┐ ┌──────────────────────┐ │ │
+
+│ │ │ PRNU │ │ Frequency│ │ Pixel Noise │ │ │
+
+│ │ │ Detector │ │ Analysis │ │ Analysis │ │ │
+
+│ │ └──────────┘ └──────────┘ └──────────────────────┘ │ │
+
+│ │ ┌──────────┐ ┌──────────┐ ┌──────────────────────┐ │ │
+
+│ │ │ Shadow │ │Reflection│ │ Facial Consistency │ │ │
+
+│ │ │ Geometry │ │ Analysis │ │ Detection │ │ │
+
+│ │ └──────────┘ └──────────┘ └──────────────────────┘ │ │
+
+│ │ ┌──────────┐ │ │
+
+│ │ │ EXIF │ │ │
+
+│ │ │ Analysis │ │ │
+
+│ │ └──────────┘ │ │
+
+│ └─────────────┬────────────────────────────────────────┘ │
+
+│ │ │
+
+│ ▼ │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ AI Model Inference Service │ │
+
+│ │ - Load PyTorch model │ │
+
+│ │ - GPU acceleration (if available) │ │
+
+│ │ - Batch prediction │ │
+
+│ └─────────────┬────────────────────────────────────────┘ │
+
+│ │ │
+
+│ ▼ │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ Decision Fusion Engine │ │
+
+│ │ - Weighted score combination │ │
+
+│ │ - Verdict classification │ │
+
+│ │ - Reasoning generation │ │
+
+│ └─────────────┬────────────────────────────────────────┘ │
+
+│ │ │
+
+│ ▼ │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ Response Formatting & Caching │ │
+
+│ └──────────────────────────────────────────────────────┘ │
+
+└────────────┬────────────────────────────────────────────────┘
+
+│
+
+▼
+
+┌─────────────────────────────────────────────────────────────┐
+
+│ Data Layer │
+
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────────┐ │
+
+│ │ PostgreSQL │ │ Redis Cache │ │ S3 Object │ │
+
+│ │ (Metadata) │ │ (Sessions) │ │ Storage (Images)│ │
+
+│ └──────────────┘ └──────────────┘ └──────────────────┘ │
+
+└─────────────────────────────────────────────────────────────┘
+
+│
+
+▼
+
+┌─────────────────────────────────────────────────────────────┐
+
+│ Background Services │
+
+│ ┌──────────────────────────────────────────────────────┐ │
+
+│ │ Celery Workers (Async Processing) │ │
+
+│ │ - Batch analysis queue │ │
+
+│ │ - Report generation │ │
+
+│ │ - Model retraining jobs │ │
+
+│ └──────────────────────────────────────────────────────┘ │
+
+└─────────────────────────────────────────────────────────────┘
+
+\`\`\`
+
+\### 6.2 Technology Stack
+
+\*\*Frontend:\*\*
+
+\- \*\*Framework:\*\* React.js 18+ with TypeScript
+
+\- \*\*UI Library:\*\* Material-UI or Tailwind CSS
+
+\- \*\*Charts:\*\* Chart.js or Recharts
+
+\- \*\*State Management:\*\* Redux or Zustand
+
+\- \*\*HTTP Client:\*\* Axios
+
+\*\*Backend:\*\*
+
+\- \*\*Framework:\*\* Python FastAPI 0.100+
+
+\- \*\*ASGI Server:\*\* Uvicorn
+
+\- \*\*Task Queue:\*\* Celery with Redis broker
+
+\- \*\*Web Server:\*\* Nginx (reverse proxy, load balancing)
+
+\*\*Machine Learning:\*\*
+
+\- \*\*Framework:\*\* PyTorch 2.0+
+
+\- \*\*Vision:\*\* torchvision, timm (pretrained models)
+
+\- \*\*Image Processing:\*\* OpenCV 4.8+, Pillow 10+
+
+\- \*\*Numerical:\*\* NumPy 1.24+, SciPy 1.11+
+
+\- \*\*Wavelets:\*\* PyWavelets
+
+\- \*\*Face Detection:\*\* MediaPipe 0.10+ or dlib
+
+\*\*Database & Storage:\*\*
+
+\- \*\*Primary DB:\*\* PostgreSQL 15+ (metadata, logs, users)
+
+\- \*\*Cache:\*\* Redis 7+ (sessions, rate limiting, queue)
+
+\- \*\*Object Storage:\*\* AWS S3 or MinIO (images, reports)
+
+\*\*DevOps & Infrastructure:\*\*
+
+\- \*\*Containerization:\*\* Docker, Docker Compose
+
+\- \*\*Orchestration:\*\* Kubernetes (for production scale)
+
+\- \*\*CI/CD:\*\* GitHub Actions or GitLab CI
+
+\- \*\*Monitoring:\*\* Prometheus + Grafana
+
+\- \*\*Logging:\*\* ELK Stack (Elasticsearch, Logstash, Kibana)
+
+\- \*\*Cloud:\*\* AWS, GCP, or Azure
+
+\*\*Development Tools:\*\*
+
+\- \*\*IDE:\*\* VS Code, PyCharm
+
+\- \*\*Environment:\*\* Anaconda or virtualenv
+
+\- \*\*Version Control:\*\* Git + GitHub/GitLab
+
+\- \*\*API Documentation:\*\* Swagger/OpenAPI, Postman
+
+\---
+
+\### 6.3 Data Flow Diagram
+
+\`\`\`
+
+1\. User uploads image
+
+↓
+
+2\. API Gateway validates request & authenticates
+
+↓
+
+3\. Image saved to temporary storage
+
+↓
+
+4\. Preprocessing: Load → Validate → Normalize → Detect Face
+
+↓
+
+5\. Parallel execution of 7 forensic modules + AI model:
+
+\- PRNU Detection
+
+\- Frequency Analysis
+
+\- Pixel Noise Analysis
+
+\- Shadow Geometry
+
+\- Specular Reflection
+
+\- Facial Consistency
+
+\- EXIF Metadata
+
+\- AI Model Inference
+
+↓
+
+6\. All scores collected
+
+↓
+
+7\. Decision Fusion Engine:
+
+\- Weighted combination
+
+\- Threshold classification
+
+\- Reasoning generation
+
+↓
+
+8\. Result formatting (JSON)
+
+↓
+
+9\. Cache result (Redis)
+
+↓
+
+10\. Save metadata to PostgreSQL
+
+↓
+
+11\. Return response to user
+
+↓
+
+12\. (Optional) Generate PDF report asynchronously
+
+↓
+
+13\. Delete image from temporary storage (24h later)
+
+\`\`\`
+
+\---
+
+\### 6.4 Deployment Architecture
+
+\*\*Development Environment:\*\*
+
+\`\`\`
+
+Docker Compose setup:
+
+\- FastAPI container
+
+\- PostgreSQL container
+
+\- Redis container
+
+\- MinIO container (S3 alternative)
+
+\`\`\`
+
+\*\*Production Environment (AWS Example):\*\*
+
+\`\`\`
+
+\- Application: EC2 instances / ECS / EKS
+
+\- Load Balancer: AWS ALB
+
+\- Database: RDS PostgreSQL (Multi-AZ)
+
+\- Cache: ElastiCache Redis
+
+\- Storage: S3 buckets
+
+\- CDN: CloudFront
+
+\- GPU Instances: EC2 g4dn.xlarge (for AI model inference)
+
+\- Monitoring: CloudWatch + Prometheus
+
+\`\`\`
+
+\*\*Scalability Strategy:\*\*
+
+\- Horizontal scaling: Add more API containers
+
+\- Separate compute for AI inference (GPU instances)
+
+\- Database read replicas
+
+\- Caching layer for repeated images (hash-based)
+
+\---
+
+\## 7. Project Structure
+
+\`\`\`
+
+AI_Image_Authenticity_Detection/
+
+│
+
+├── README.md # Project overview, setup instructions
+
+├── requirements.txt # Python dependencies
+
+├── setup.py # Package installation script
+
+├── .env.example # Environment variables template
+
+├── .gitignore # Git ignore file
+
+├── docker-compose.yml # Docker services definition
+
+├── Dockerfile # Docker image build
+
+│
+
+├── dataset/ # Training and test data
+
+│ ├── real/ # Real human images (camera captured)
+
+│ │ ├── dslr/ # DSLR camera photos
+
+│ │ ├── smartphone/ # Smartphone photos
+
+│ │ └── metadata.csv # Image labels and metadata
+
+│ │
+
+│ ├── ai/ # AI-generated human images
+
+│ │ ├── stable_diffusion/ # SD-generated images
+
+│ │ ├── dalle/ # DALL-E generated images
+
+│ │ ├── midjourney/ # Midjourney images
+
+│ │ ├── gan/ # GAN-based images
+
+│ │ └── metadata.csv # Image source labels
+
+│ │
+
+│ ├── validation/ # Validation split (10%)
+
+│ └── test/ # Test split (10%)
+
+│
+
+├── preprocessing/ # Image preprocessing modules
+
+│ ├── \__init_\_.py
+
+│ ├── image_loader.py # Load image safely with validation
+
+│ │ # Functions:
+
+│ │ # - load_image(path) -> np.ndarray
+
+│ │ # - validate_format(path) -> bool
+
+│ │ # - normalize_resolution(image, target=1024) -> np.ndarray
+
+│ │ # - convert_color_space(image, target='RGB') -> np.ndarray
+
+│ │
+
+│ └── face_detection.py # Detect face & landmarks
+
+│ # Functions:
+
+│ # - detect_face(image) -> bbox
+
+│ # - extract_landmarks(image) -> 68-point array
+
+│ # - crop_to_face(image, padding=0.2) -> np.ndarray
+
+│ # - validate_face_present(image) -> bool
+
+│
+
+├── detectors/ # Forensic analysis modules
+
+│ ├── \__init_\_.py
+
+│ │
+
+│ ├── prnu_detector.py # Camera sensor noise detection
+
+│ │ # Functions:
+
+│ │ # - extract_noise_residual(image) -> np.ndarray
+
+│ │ # - calculate_prnu_score(image) -> float \[0-1\]
+
+│ │
+
+│ ├── pixel_noise.py # Pixel-level noise analysis
+
+│ │ # Functions:
+
+│ │ # - extract_noise(image) -> np.ndarray
+
+│ │ # - calculate_entropy(noise) -> float
+
+│ │ # - compute_naturalness_score(image) -> float \[0-1\]
+
+│ │
+
+│ ├── frequency_analysis.py # FFT-based frequency domain analysis
+
+│ │ # Functions:
+
+│ │ # - compute_fft(image) -> np.ndarray
+
+│ │ # - analyze_spectrum(fft_result) -> dict
+
+│ │ # - detect_periodic_artifacts(spectrum) -> bool
+
+│ │ # - calculate_artifact_score(image) -> float \[0-1\]
+
+│ │
+
+│ ├── shadow_geometry.py # Shadow direction consistency check
+
+│ │ # Functions:
+
+│ │ # - detect_shadows(image, landmarks) -> list
+
+│ │ # - calculate_shadow_vectors(shadows) -> np.ndarray
+
+│ │ # - verify_consistency(vectors) -> float \[0-1\]
+
+│ │ # - compute_shadow_score(image) -> float \[0-1\]
+
+│ │
+
+│ ├── specular_reflection.py # Eye/skin reflection analysis
+
+│ │ # Functions:
+
+│ │ # - detect_eye_catchlights(image, landmarks) -> list
+
+│ │ # - compare_bilateral_reflections(left, right) -> float
+
+│ │ # - compute_reflection_score(image) -> float \[0-1\]
+
+│ │
+
+│ ├── facial_consistency.py # Anatomical correctness check
+
+│ │ # Functions:
+
+│ │ # - extract_landmarks(image) -> np.ndarray
+
+│ │ # - calculate_symmetry_metrics(landmarks) -> dict
+
+│ │ # - check_anatomical_correctness(landmarks) -> bool
+
+│ │ # - compute_facial_score(image) -> float \[0-1\]
+
+│ │
+
+│ └── exif_analysis.py # EXIF metadata extraction & validation
+
+│ # Functions:
+
+│ # - extract_exif(image_path) -> dict
+
+│ # - check_camera_metadata(exif) -> bool
+
+│ # - detect_tampering(exif) -> bool
+
+│ # - compute_metadata_score(image_path) -> float \[0-1\]
+
+│
+
+├── ai_model/ # CNN-based AI detector
+
+│ ├── \__init_\_.py
+
+│ │
+
+│ ├── model.py # CNN architecture definition
+
+│ │ # Classes:
+
+│ │ # - AIDetectorModel(base='resnet50')
+
+│ │ # Methods:
+
+│ │ # - build_model()
+
+│ │ # - forward(x)
+
+│ │
+
+│ ├── train.py # Model training script
+
+│ │ # Functions:
+
+│ │ # - prepare_dataset(data_dir)
+
+│ │ # - create_dataloaders(batch_size=32)
+
+│ │ # - train_model(epochs=50)
+
+│ │ # - evaluate_model(test_loader)
+
+│ │ # - save_checkpoint(model, path)
+
+│ │ # Main: python -m ai_model.train
+
+│ │
+
+│ ├── predict.py # Inference module
+
+│ │ # Functions:
+
+│ │ # - load_model(checkpoint_path)
+
+│ │ # - preprocess_image(image)
+
+│ │ # - predict_single(image) -> float \[0-1\]
+
+│ │ # - predict_batch(images) -> list
+
+│ │
+
+│ ├── config.py # Training hyperparameters
+
+│ │ # BATCH_SIZE, LEARNING_RATE, EPOCHS, etc.
+
+│ │
+
+│ └── weights/ # Saved model checkpoints
+
+│ ├── best_model.pth
+
+│ └── latest_model.pth
+
+│
+
+├── fusion/ # Score fusion and decision logic
+
+│ ├── \__init_\_.py
+
+│ │
+
+│ └── decision_engine.py # Weighted score fusion
+
+│ # Classes:
+
+│ # - DecisionEngine(weights=default_weights)
+
+│ # Methods:
+
+│ # - fuse_scores(scores_dict) -> float
+
+│ # - classify(final_score) -> str
+
+│ # - generate_reasoning(scores, verdict) -> list
+
+│ # - analyze(image_path) -> dict (main function)
+
+│
+
+├── app/ # User interface
+
+│ ├── \__init_\_.py
+
+│ │
+
+│ ├── streamlit_app.py # Streamlit web UI demo
+
+│ │ # Sections:
+
+│ │ # - File upload interface
+
+│ │ # - Processing status display
+
+│ │ # - Results visualization (charts, scores)
+
+│ │ # - Detailed reasoning
+
+│ │ # - Download report button
+
+│ │ # Run: streamlit run app/streamlit_app.py
+
+│ │
+
+│ └── api/ # FastAPI backend (production)
+
+│ ├── \__init_\_.py
+
+│ ├── main.py # FastAPI app definition
+
+│ ├── routes/ # API endpoints
+
+│ │ ├── analyze.py # POST /analyze, /batch
+
+│ │ ├── status.py # GET /status/{id}
+
+│ │ └── report.py # GET /report/{id}
+
+│ ├── models/ # Pydantic schemas
+
+│ │ ├── request.py
+
+│ │ └── response.py
+
+│ ├── services/ # Business logic
+
+│ │ ├── analyzer.py # Core analysis orchestration
+
+│ │ └── report_gen.py # PDF generation
+
+│ └── utils/ # Helpers
+
+│ ├── auth.py # API key validation
+
+│ └── cache.py # Redis caching
+
+│
+
+├── evaluation/ # Model & system evaluation
+
+│ ├── \__init_\_.py
+
+│ │
+
+│ ├── metrics.py # Calculate accuracy, precision, recall, F1
+
+│ │ # Functions:
+
+│ │ # - calculate_metrics(y_true, y_pred) -> dict
+
+│ │ # - confusion_matrix(y_true, y_pred)
+
+│ │ # - roc_auc_score(y_true, y_scores)
+
+│ │
+
+│ ├── plots.py # Visualization utilities
+
+│ │ # Functions:
+
+│ │ # - plot_confusion_matrix(cm)
+
+│ │ # - plot_roc_curve(fpr, tpr)
+
+│ │ # - plot_score_distribution(scores, labels)
+
+│ │
+
+│ └── evaluate_system.py # Full system evaluation script
+
+│ # Run on test dataset, generate comprehensive report
+
+│ # Main: python -m evaluation.evaluate_system
+
+│
+
+├── tests/ # Unit and integration tests
+
+│ ├── \__init_\_.py
+
+│ ├── test_preprocessing.py
+
+│ ├── test_detectors.py
+
+│ ├── test_ai_model.py
+
+│ ├── test_fusion.py
+
+│ └── test_api.py
+
+│
+
+├── scripts/ # Utility scripts
+
+│ ├── download_dataset.py # Download training data
+
+│ ├── prepare_data.py # Data preprocessing pipeline
+
+│ ├── benchmark.py # Performance benchmarking
+
+│ └── deploy.sh # Deployment script
+
+│
+
+├── configs/ # Configuration files
+
+│ ├── default_weights.json # Default fusion weights
+
+│ ├── conservative_weights.json # Conservative profile
+
+│ └── forensic_weights.json # Forensic profile (no AI model)
+
+│
+
+├── docs/ # Documentation
+
+│ ├── API_REFERENCE.md # API documentation
+
+│ ├── USER_GUIDE.md # End-user guide
+
+│ ├── DEVELOPER_GUIDE.md # Developer setup
+
+│ ├── METHODOLOGY.md # Technical methodology
+
+│ └── FAQ.md # Frequently asked questions
+
+│
+
+└── report/ # Final deliverables
+
+├── Final_Report.pdf # Comprehensive project report
+
+├── IEEE_Paper.pdf # Research paper (IEEE format)
+
+├── Presentation.pptx # Project presentation slides
+
+└── Demo_Video.mp4 # System demonstration video
+
+\`\`\`
+
+\---
+
+\### 7.1 File Descriptions
+
+\#### Root Level Files
+
+\*\*\`README.md\`\*\*
+
+\- Project title and description
+
+\- Features list
+
+\- Quick start guide
+
+\- Installation instructions
+
+\- Usage examples
+
+\- API documentation link
+
+\- License information
+
+\- Contributors
+
+\*\*\`requirements.txt\`\*\*
+
+\`\`\`
+
+torch==2.0.1
+
+torchvision==0.15.2
+
+opencv-python==4.8.0
+
+numpy==1.24.3
+
+scipy==1.11.1
+
+pywavelets==1.4.1
+
+mediapipe==0.10.3
+
+pillow==10.0.0
+
+fastapi==0.100.0
+
+uvicorn==0.23.0
+
+celery==5.3.1
+
+redis==4.6.0
+
+streamlit==1.25.0
+
+pandas==2.0.3
+
+matplotlib==3.7.2
+
+seaborn==0.12.2
+
+scikit-learn==1.3.0
+
+reportlab==4.0.4
+
+**docker-compose.yml**
+
+yaml
+
+version: '3.8'
+
+services:
+
+api:
+
+build: .
+
+ports:
+
+\- "8000:8000"
+
+environment:
+
+\- DATABASE_URL=postgresql://user:pass@db:5432/detector
+
+\- REDIS_URL=redis://redis:6379
+
+depends_on:
+
+\- db
+
+\- redis
+
+db:
+
+image: postgres:15
+
+environment:
+
+POSTGRES_USER: user
+
+POSTGRES_PASSWORD: pass
+
+POSTGRES_DB: detector
+
+redis:
+
+image: redis:7-alpine
+
+celery:
+
+build: .
+
+command: celery -A app.api.celery_app worker --loglevel=info
+
+depends_on:
+
+\- redis
+
+\`\`\`
+
+\---
+
+\## 8. Non-Functional Requirements
+
+\### 8.1 Performance Requirements
+
+| Requirement | Target | Critical Path |
+
+|-------------|--------|---------------|
+
+| **\*\*Single** Image Processing**\*\*** | <5 seconds | P0 |
+
+| API response time (total) | <6 seconds | P0 |
+
+| PRNU analysis | <2 seconds | P0 |
+
+| FFT analysis | <1.5 seconds | P0 |
+
+| AI model inference | <2 seconds | P0 |
+
+| Facial analysis | <1 second | P0 |
+
+| **\*\*Batch** Processing**\*\*** | 10 images in <60 seconds | P1 |
+
+| **\*\*Concurrent** Users**\*\*** | Support 100+ simultaneous | P1 |
+
+| **\*\*Throughput\*\*** | 720 images/hour (single instance) | P1 |
+
+| Database query latency | <100ms | P1 |
+
+| Redis cache hit ratio | >80% | P2 |
+
+**\*\*Optimization** Strategies:**\*\***
+
+\- GPU acceleration for AI model inference
+
+\- Parallel execution of forensic modules
+
+\- Result caching (hash-based deduplication)
+
+\- Database connection pooling
+
+\- Async processing for non-critical tasks
+
+\---
+
+\### 8.2 Scalability Requirements
+
+**\*\*Horizontal** Scaling:**\*\***
+
+\- Stateless API design for easy replication
+
+\- Load balancing across multiple API instances
+
+\- Separate scaling for compute-intensive modules (AI inference)
+
+**\*\*Vertical** Scaling:**\*\***
+
+\- Support for GPU instances (NVIDIA CUDA)
+
+\- Multi-threading for CPU-bound operations
+
+\- Memory optimization (<2GB per request)
+
+**\*\*Capacity** Targets:**\*\***
+
+| Timeline | Daily Images | Concurrent Users | Infrastructure |
+
+|----------|-------------|------------------|----------------|
+
+| Month 1 | 1,000 | 50 | Single server |
+
+| Month 3 | 10,000 | 200 | 3-5 servers |
+
+| Month 6 | 50,000 | 500 | Auto-scaling cluster |
+
+| Year 1 | 200,000+ | 1,000+ | Multi-region deployment |
+
+\---
+
+\### 8.3 Security Requirements
+
+**\*\*Authentication** & Authorization:**\*\***
+
+\- API key-based authentication (JWT tokens)
+
+\- Role-based access control (RBAC):
+
+\- Admin: Full system access
+
+\- Developer: API access with rate limits
+
+\- Free user: Limited quota
+
+\- Premium user: Higher quota
+
+\- OAuth 2.0 support for third-party integrations
+
+**\*\*Data** Protection:**\*\***
+
+\- HTTPS/TLS 1.3 encryption for all communications
+
+\- Image encryption at rest (AES-256)
+
+\- Automatic image deletion after 24 hours (default)
+
+\- GDPR-compliant data handling
+
+\- PII detection and masking in logs
+
+**\*\*API** Security:**\*\***
+
+\- Rate limiting (100 req/hour free, 1000 req/hour paid)
+
+\- Request size limits (10MB per image)
+
+\- Input validation and sanitization
+
+\- CORS policies
+
+\- DDoS protection (Cloudflare or AWS Shield)
+
+**\*\*Vulnerability** Protection:**\*\***
+
+\- SQL injection prevention (parameterized queries)
+
+\- XSS prevention (output encoding)
+
+\- CSRF tokens for web UI
+
+\- Secure file upload validation
+
+\- Regular security audits and penetration testing
+
+**\*\*Compliance:\*\***
+
+\- GDPR (Europe)
+
+\- CCPA (California)
+
+\- SOC 2 Type II (for enterprise customers)
+
+\- ISO 27001 (information security management)
+
+\---
+
+\### 8.4 Reliability Requirements
+
+**\*\*Availability:\*\***
+
+\- System uptime: **\*\*99.5%\*\*** (monthly SLA)
+
+\- Maximum planned downtime: 4 hours/month
+
+\- Maintenance window: Sundays 2-6 AM UTC
+
+**\*\*Fault** Tolerance:**\*\***
+
+\- Automated failover for database (master-replica)
+
+\- Redis persistence (AOF + RDB)
+
+\- Graceful degradation: If one module fails, others continue
+
+\- Health checks and auto-restart for containers
+
+**\*\*Backup** & Recovery:**\*\***
+
+\- Database backups: Every 6 hours (retained 30 days)
+
+\- Point-in-time recovery capability
+
+\- Disaster recovery plan with RTO <4 hours, RPO <1 hour
+
+**\*\*Error** Handling:**\*\***
+
+\- Comprehensive logging (all errors captured)
+
+\- Automatic retry logic (3 attempts for transient failures)
+
+\- User-friendly error messages
+
+\- Admin alerts for critical failures (email, Slack)
+
+**\*\*Monitoring:\*\***
+
+\- Real-time system health dashboard
+
+\- Application metrics (requests/sec, errors, latency)
+
+\- Infrastructure metrics (CPU, memory, disk, network)
+
+\- Alerting thresholds:
+
+\- Error rate >5% → Warning
+
+\- Error rate >10% → Critical
+
+\- Response time >10s → Warning
+
+\- Uptime <99% → Critical
+
+\---
+
+\### 8.5 Compatibility Requirements
+
+**\*\*Browser** Support (Web UI):**\*\***
+
+\- Chrome/Edge 100+ ✅
+
+\- Firefox 100+ ✅
+
+\- Safari 15+ ✅
+
+\- Mobile browsers (iOS Safari, Chrome Mobile) ✅
+
+**\*\*API** Compatibility:**\*\***
+
+\- REST API with JSON responses
+
+\- OpenAPI 3.0 specification
+
+\- Backward compatibility guarantee for v1 API
+
+\- Versioned endpoints (/v1/, /v2/)
+
+**\*\*Operating** Systems (Desktop App - Future):**\*\***
+
+\- Windows 10/11
+
+\- macOS 11+
+
+\- Ubuntu 20.04+
+
+**\*\*Integration** Support:**\*\***
+
+\- Python SDK (Python 3.8+)
+
+\- Node.js SDK (Node 16+)
+
+\- Java SDK (Java 11+)
+
+\- Webhook callbacks
+
+\- Zapier integration (future)
+
+**\*\*Image** Format Support:**\*\***
+
+\- JPEG/JPG ✅
+
+\- PNG ✅
+
+\- WebP ✅
+
+\- BMP ✅ (converted to JPEG)
+
+\- TIFF ✅ (converted to JPEG)
+
+\---
+
+\### 8.6 Usability Requirements
+
+**\*\*Web** UI:**\*\***
+
+\- **\*\*Intuitive** design:**\*\*** No training required for basic use
+
+\- **\*\*Maximum** 3 clicks**\*\*** to upload and get results
+
+\- **\*\*Mobile** responsive:**\*\*** Works on tablets and phones
+
+\- **\*\*Loading** indicators:**\*\*** Clear progress feedback
+
+\- **\*\*Error** messages:**\*\*** Plain language, actionable suggestions
+
+\- **\*\*Help** system:**\*\*** Contextual tooltips, FAQ, video tutorials
+
+**\*\*API:\*\***
+
+\- **\*\*Clear** documentation:**\*\*** Swagger/OpenAPI interactive docs
+
+\- **\*\*Code** examples:**\*\*** Python, Node.js, cURL, Java
+
+\- **\*\*SDKs:\*\*** Well-documented, type-safe
+
+\- **\*\*Error** codes:**\*\*** Standardized, documented
+
+\- **\*\*Sandbox** environment:**\*\*** Test API without charges
+
+**\*\*Accessibility:\*\***
+
+\- WCAG 2.1 Level AA compliance
+
+\- Keyboard navigation support
+
+\- Screen reader compatibility
+
+\- High contrast mode
+
+\- Adjustable font sizes
+
+**\*\*Internationalization:\*\***
+
+\- Multi-language support (Phase 2):
+
+\- English (primary)
+
+\- Spanish
+
+\- Mandarin Chinese
+
+\- French
+
+\- German
+
+\- Localized number/date formats
+
+\- RTL (right-to-left) language support
+
+\---
+
+\### 8.7 Maintainability Requirements
+
+**\*\*Code** Quality:**\*\***
+
+\- Test coverage >80%
+
+\- Type hints (Python typing module)
+
+\- Comprehensive docstrings
+
+\- Linting (flake8, black, pylint)
+
+\- Code review process (2+ reviewers)
+
+**\*\*Documentation:\*\***
+
+\- Inline code comments for complex logic
+
+\- API reference (auto-generated from OpenAPI spec)
+
+\- Architecture diagrams (kept up-to-date)
+
+\- Runbooks for common operations
+
+\- Changelog for all releases
+
+**\*\*Modularity:\*\***
+
+\- Loosely coupled components
+
+\- Each forensic module independently testable
+
+\- Plugin architecture for adding new modules
+
+\- Configuration-driven behavior (no hard-coded values)
+
+**\*\*Versioning:\*\***
+
+\- Semantic versioning (MAJOR.MINOR.PATCH)
+
+\- Git tags for releases
+
+\- Migration scripts for database schema changes
+
+\- Deprecated features marked 2 versions in advance
+
+\---
+
+\### 8.8 Portability Requirements
+
+**\*\*Containerization:\*\***
+
+\- Docker images for all services
+
+\- Docker Compose for local development
+
+\- Kubernetes manifests for production
+
+**\*\*Cloud** Agnostic:**\*\***
+
+\- Compatible with AWS, GCP, Azure
+
+\- No cloud-specific APIs (use abstractions)
+
+\- Terraform scripts for infrastructure as code
+
+**\*\*Environment** Configuration:**\*\***
+
+\- 12-factor app principles
+
+\- Environment variables for configuration
+
+\- Support for .env files (development)
+
+\- Secrets management (AWS Secrets Manager, Vault)
+
+\---
+
+\## 9. Data Requirements
+
+\### 9.1 Training Dataset
+
+**\*\*Size** & Composition:**\*\***
+
+| Category | Quantity | Sources |
+
+|----------|----------|---------|
+
+| **\*\*Real** Images**\*\*** | 25,000+ | |
+
+| - DSLR photos | 10,000 | Flickr (CC), Kaggle datasets |
+
+| - Smartphone photos | 15,000 | FFHQ, CelebA, manual collection |
+
+| **\*\*AI-Generated** Images**\*\*** | 25,000+ | |
+
+| - Stable Diffusion | 10,000 | SD 1.5, 2.0, XL (self-generated) |
+
+| - DALL-E | 5,000 | DALL-E 2, 3 (licensed samples) |
+
+| - Midjourney | 5,000 | MJ v4, v5, v6 (licensed) |
+
+| - GAN models | 5,000 | StyleGAN2, ProGAN, PGGAN |
+
+| **\*\*Total\*\*** | **\*\*50**,000+**\*\*** | |
+
+**\*\*Data** Split:**\*\***
+
+\- Training: 40,000 (80%)
+
+\- Validation: 5,000 (10%)
+
+\- Test: 5,000 (10%)
+
+**\*\*Diversity** Requirements:**\*\***
+
+**\*\*Demographics:\*\***
+
+\- Age range: 18-80 years
+
+\- Ethnicities: Balanced representation (Asian, Black, Hispanic, White, etc.)
+
+\- Gender: 50/50 split
+
+**\*\*Image** Characteristics:**\*\***
+
+\- Resolutions: 512×512 to 4096×4096
+
+\- Lighting conditions: Indoor, outdoor, studio, natural
+
+\- Camera types: DSLR, mirrorless, smartphone
+
+\- Compression levels: Uncompressed, light JPEG, heavy JPEG
+
+\- Orientations: Portrait, landscape, various angles
+
+\---
+
+\### 9.2 Data Collection Process
+
+**\*\*Real** Images:**\*\***
+
+1\. Download from public datasets (Flickr CC, Kaggle)
+
+2\. Verify camera metadata presence (EXIF)
+
+3\. Manual review to ensure real people
+
+4\. Face detection to filter out non-human images
+
+**\*\*AI-Generated** Images:**\*\***
+
+1\. Generate using various AI tools with diverse prompts
+
+2\. Collect from public AI image repositories
+
+3\. License commercial samples (DALL-E, Midjourney)
+
+4\. Label with source model and version
+
+**\*\*Data** Labeling:**\*\***
+
+\- Binary labels: 0 = Real, 1 = AI
+
+\- Metadata: Source, model version, generation parameters
+
+\- Quality control: 10% cross-validated by 3 reviewers
+
+\- Inter-annotator agreement >95%
+
+\---
+
+\### 9.3 Data Storage & Management
+
+**\*\*Storage** Structure:**\*\***
+
+\`\`\`
+
+dataset/
+
+├── real/
+
+│ ├── train/
+
+│ ├── val/
+
+│ └── test/
+
+├── ai/
+
+│ ├── train/
+
+│ ├── val/
+
+│ └── test/
+
+└── metadata.csv
+
+\`\`\`
+
+**\*\*Metadata** CSV Schema:**\*\***
+
+\`\`\`
+
+image_id, label, source, camera_model, ai_model, resolution, file_size, split
+
+**Data Versioning:**
+
+- DVC (Data Version Control) for dataset versioning
+- S3 versioning enabled for backup
+- Change log for dataset updates
+
+**9.4 Data Privacy & Ethics**
+
+**Personal Data:**
+
+- Use only publicly available images with licenses
+- No PII (names, addresses) stored with images
+- Faces are not identifiable in training (diverse public datasets)
+- Compliance with GDPR, CCPA
+
+**User-Uploaded Images:**
+
+- Automatic deletion after 24 hours (configurable)
+- No training on user data without explicit consent
+- Opt-in program for users to contribute to improvement
+- Anonymization before storage (strip EXIF GPS, names)
+
+**Bias Mitigation:**
+
+- Balanced representation across demographics
+- Regular bias audits (fairness metrics)
+- Diverse development team for review
+
+**10\. Testing Requirements**
+
+**10.1 Unit Testing**
+
+**Scope:**
+
+- Each forensic module independently tested
+- Helper functions and utilities
+- Database models and queries
+
+**Tools:**
+
+- pytest (Python testing framework)
+- unittest.mock (mocking dependencies)
+- pytest-cov (code coverage)
+
+**Coverage Target:**
+
+- Overall: >80%
+- Critical modules (detectors, fusion): >90%
+
+**Example Test Cases:**
+
+python
+
+\# tests/test_detectors.py
+
+def test_prnu_detection_real_image():
+
+"""PRNU score should be high for real camera image"""
+
+image = load_test_image('real_dslr.jpg')
+
+score = calculate_prnu_score(image)
+
+assert score > 0.7
+
+def test_prnu_detection_ai_image():
+
+"""PRNU score should be low for AI-generated image"""
+
+image = load_test_image('ai_stable_diffusion.jpg')
+
+score = calculate_prnu_score(image)
+
+assert score < 0.3
+
+def test_facial_consistency_symmetric_face():
+
+"""Overly symmetric AI faces should score low"""
+
+image = load_test_image('ai_perfect_symmetry.jpg')
+
+score = compute_facial_score(image)
+
+assert score < 0.5
+
+\`\`\`
+
+\---
+
+\### 10.2 Integration Testing
+
+\*\*Scope:\*\*
+
+\- End-to-end image analysis pipeline
+
+\- API endpoints (request → response)
+
+\- Database operations (save, retrieve)
+
+\- External service integration (S3, Redis)
+
+\*\*Test Scenarios:\*\*
+
+1\. Upload real image → Verify "REAL" verdict
+
+2\. Upload AI image → Verify "AI_GENERATED" verdict
+
+3\. Upload batch of images → Verify all processed correctly
+
+4\. Invalid image format → Verify error handling
+
+5\. Large image (>10MB) → Verify rejection
+
+6\. API authentication failure → Verify 401 response
+
+7\. Rate limit exceeded → Verify 429 response
+
+\*\*Tools:\*\*
+
+\- pytest with requests library (API testing)
+
+\- TestClient from FastAPI (integration tests)
+
+\---
+
+\### 10.3 Performance Testing
+
+\*\*Load Testing:\*\*
+
+\- \*\*Tool:\*\* Locust or Apache JMeter
+
+\- \*\*Scenario:\*\* Simulate 100 concurrent users
+
+\- \*\*Metrics:\*\*
+
+\- Average response time <6 seconds
+
+\- 95th percentile <10 seconds
+
+\- Throughput >100 requests/minute
+
+\- Error rate <1%
+
+\*\*Stress Testing:\*\*
+
+\- Gradually increase load until system breaks
+
+\- Identify bottlenecks (CPU, memory, database)
+
+\- Verify graceful degradation
+
+\*\*Endurance Testing:\*\*
+
+\- Run system at 70% capacity for 24 hours
+
+\- Monitor for memory leaks
+
+\- Check database connection pool stability
+
+\---
+
+\### 10.4 Accuracy Testing
+
+\*\*Test Dataset:\*\*
+
+\- 5,000 held-out images (not in training set)
+
+\- Balanced 50/50 real/AI
+
+\- Diverse sources and models
+
+\*\*Metrics:\*\*
+
+\- \*\*Accuracy:\*\* (TP + TN) / Total ≥ 85%
+
+\- \*\*Precision:\*\* TP / (TP + FP) ≥ 80%
+
+\- \*\*Recall:\*\* TP / (TP + FN) ≥ 85%
+
+\- \*\*F1-Score:\*\* Harmonic mean ≥ 82%
+
+\- \*\*ROC-AUC:\*\* ≥ 0.90
+
+\*\*Confusion Matrix Analysis:\*\*
+
+\`\`\`
+
+Predicted Real Predicted AI
+
+Actual Real 2,300 200 → 92% Recall (Real)
+
+Actual AI 350 2,150 → 86% Recall (AI)
+
+\`\`\`
+
+\*\*Per-Model Breakdown:\*\*
+
+\- Stable Diffusion: 88% accuracy
+
+\- DALL-E: 84% accuracy
+
+\- Midjourney: 82% accuracy
+
+\- GAN models: 90% accuracy
+
+\---
+
+\### 10.5 Security Testing
+
+\*\*Vulnerability Scanning:\*\*
+
+\- \*\*Tool:\*\* OWASP ZAP, Burp Suite
+
+\- \*\*Tests:\*\*
+
+\- SQL injection attempts
+
+\- XSS attacks
+
+\- CSRF attacks
+
+\- Authentication bypass
+
+\- File upload exploits (malicious files)
+
+\*\*Penetration Testing:\*\*
+
+\- Hire external security firm (annual)
+
+\- Simulate real-world attack scenarios
+
+\- Test API security (rate limiting, authentication)
+
+\*\*Dependency Scanning:\*\*
+
+\- \*\*Tool:\*\* Snyk, Dependabot
+
+\- Scan for vulnerable libraries
+
+\- Automated security updates
+
+\---
+
+\### 10.6 User Acceptance Testing (UAT)
+
+\*\*Participants:\*\*
+
+\- 20 beta users (content moderators, journalists, developers)
+
+\- 5 internal team members
+
+\*\*Test Scenarios:\*\*
+
+1\. Upload profile picture and verify authenticity
+
+2\. Batch analyze 10 images for moderation
+
+3\. Generate and download PDF report
+
+4\. Integrate API into existing workflow
+
+5\. Customize fusion weights for specific use case
+
+\*\*Success Criteria:\*\*
+
+\- 80% of users successfully complete tasks without help
+
+\- User satisfaction score ≥4.0/5
+
+\- <10 usability issues reported
+
+\- 90% would recommend to others
+
+\---
+
+\### 10.7 Regression Testing
+
+\*\*Automated Test Suite:\*\*
+
+\- Run on every code commit (CI/CD pipeline)
+
+\- 500+ test cases covering all modules
+
+\- Execution time <10 minutes
+
+\*\*Regression Test Cases:\*\*
+
+\- Previously fixed bugs (verify no re-occurrence)
+
+\- Edge cases (very small/large images, corrupted files)
+
+\- Backward compatibility (API changes don't break existing clients)
+
+\---
+
+\## 11. Release Plan
+
+\### 11.1 Phase 1: MVP Development (Months 1-3)
+
+\*\*Goals:\*\*
+
+\- Build core functionality
+
+\- Validate technical feasibility
+
+\- Gather initial user feedback
+
+\*\*Features:\*\*
+
+\- ✅ Core forensic modules (PRNU, FFT, Facial, Pixel Noise)
+
+\- ✅ AI detector CNN model (initial training)
+
+\- ✅ Decision fusion engine
+
+\- ✅ Basic web UI (Streamlit)
+
+\- ✅ REST API (single image endpoint)
+
+\- ✅ Initial dataset collection (10,000 images)
+
+\*\*Deliverables:\*\*
+
+\- Working prototype (demo-able)
+
+\- API documentation
+
+\- Initial accuracy report (≥75% target)
+
+\- User feedback from 10 beta testers
+
+\*\*Team:\*\*
+
+\- 2 ML Engineers
+
+\- 1 Backend Developer
+
+\- 1 Frontend Developer
+
+\- 1 Product Manager
+
+\*\*Timeline:\*\*
+
+\`\`\`
+
+Month 1: Setup + Data Collection + Core Modules
+
+Month 2: AI Model Training + Fusion Engine
+
+Month 3: UI Development + Integration + Testing
+
+\`\`\`
+
+\---
+
+\### 11.2 Phase 2: Enhancement & Production Readiness (Months 4-6)
+
+\*\*Goals:\*\*
+
+\- Improve accuracy to >85%
+
+\- Add advanced features
+
+\- Prepare for production deployment
+
+\*\*Features:\*\*
+
+\- ✅ Shadow geometry analysis
+
+\- ✅ Specular reflection analysis
+
+\- ✅ EXIF metadata analysis
+
+\- ✅ Enhanced web UI (React.js)
+
+\- ✅ Batch processing endpoint
+
+\- ✅ PDF report generation
+
+\- ✅ Expanded dataset (50,000+ images)
+
+\- ✅ Model retraining with new data
+
+\*\*Deliverables:\*\*
+
+\- Production-ready system
+
+\- Comprehensive test coverage (>80%)
+
+\- Performance optimization (≤5s processing)
+
+\- Security audit passed
+
+\- Updated documentation
+
+\*\*Team:\*\*
+
+\- Same as Phase 1 + 1 DevOps Engineer + 1 QA Engineer
+
+\*\*Timeline:\*\*
+
+\`\`\`
+
+Month 4: Advanced Modules + UI Upgrade
+
+Month 5: Performance Optimization + Security
+
+Month 6: Final Testing + Documentation + Beta Launch
+
+\`\`\`
+
+\---
+
+\### 11.3 Phase 3: Scale & Expand (Months 7-9)
+
+\*\*Goals:\*\*
+
+\- Scale infrastructure
+
+\- Add enterprise features
+
+\- Expand market reach
+
+\*\*Features:\*\*
+
+\- ✅ Admin dashboard (model management)
+
+\- ✅ Advanced analytics (usage reports)
+
+\- ✅ Third-party integrations (Zapier, social media APIs)
+
+\- ✅ Mobile app (iOS/Android) - Optional
+
+\- ✅ Multi-language support
+
+\- ✅ Enterprise SLA guarantees
+
+\*\*Deliverables:\*\*
+
+\- Scalable cloud infrastructure (auto-scaling)
+
+\- Partnership integrations (2-3 platforms)
+
+\- Enterprise customer onboarding (5+ clients)
+
+\- Marketing materials (case studies, whitepapers)
+
+\*\*Team:\*\*
+
+\- Full team + 1 Sales/BD + 1 Technical Writer
+
+\*\*Timeline:\*\*
+
+\`\`\`
+
+Month 7: Infrastructure Scaling + Admin Dashboard
+
+Month 8: Integrations + Enterprise Features
+
+Month 9: Marketing + Customer Onboarding
+
+\`\`\`
+
+\---
+
+\### 11.4 Launch Strategy
+
+\*\*Soft Launch (End of Month 6):\*\*
+
+\- Limited beta (100 users)
+
+\- Invite-only API access
+
+\- Gather feedback and iterate
+
+\*\*Public Launch (Month 7):\*\*
+
+\- Public website and API availability
+
+\- Press release
+
+\- Product Hunt launch
+
+\- Blog posts and social media campaign
+
+\*\*Pricing Model:\*\*
+
+\`\`\`
+
+Free Tier:
+
+\- 100 images/month
+
+\- Standard processing
+
+\- Community support
+
+Pro Tier (\$49/month):
+
+\- 1,000 images/month
+
+\- Priority processing
+
+\- Email support
+
+\- Batch processing
+
+Enterprise (Custom):
+
+\- Unlimited images
+
+\- Dedicated infrastructure
+
+\- SLA guarantees
+
+\- Custom integrations
+
+\- On-premise deployment option
+
+**11.5 Post-Launch Roadmap (Month 10+)**
+
+**Continuous Improvement:**
+
+- Monthly model updates with new AI samples
+- Feature requests from users (prioritized)
+- Regular security audits
+- Performance monitoring and optimization
+
+**Future Features:**
+
+- Video deepfake detection
+- Audio deepfake detection
+- Browser extension (Chrome, Firefox)
+- Blockchain-based verification (tamper-proof)
+- Real-time camera feed analysis
+- Model-specific fingerprint database
+
+**12\. Risk Management**
+
+**12.1 Technical Risks**
+
+| **Risk** | **Impact** | **Probability** | **Mitigation** | **Owner** |
+| --- | --- | --- | --- | --- |
+| **AI models evolve faster than detection** | High | High | Continuous dataset updates, modular architecture for easy retraining | ML Lead |
+| **Processing time exceeds 5s target** | Medium | Medium | GPU acceleration, code optimization, caching | Backend Lead |
+| **High false positive rate (>10%)** | High | Medium | Multi-modal approach, weight tuning, threshold optimization | ML Lead |
+| **Model overfits to training data** | Medium | Medium | Diverse dataset, regularization, cross-validation | ML Lead |
+| **Dependency vulnerabilities** | Medium | Low | Automated scanning (Snyk), regular updates | DevOps Lead |
+
+**12.2 Operational Risks**
+
+| **Risk** | **Impact** | **Probability** | **Mitigation** | **Owner** |
+| --- | --- | --- | --- | --- |
+| **Server downtime during peak hours** | High | Low | Load balancing, auto-scaling, redundancy | DevOps Lead |
+| **Database corruption** | High | Low | Automated backups (6hr), point-in-time recovery | DevOps Lead |
+| **API abuse (DDoS, scraping)** | Medium | Medium | Rate limiting, CAPTCHA, Cloudflare protection | Backend Lead |
+| **Data breach** | High | Low | Encryption (rest + transit), access controls, audits | Security Lead |
+
+**12.3 Business Risks**
+
+| **Risk** | **Impact** | **Probability** | **Mitigation** | **Owner** |
+| --- | --- | --- | --- | --- |
+| **Low user adoption** | High | Medium | Marketing campaign, partnerships, free tier | Product Manager |
+| **Competition from free alternatives** | Medium | High | Focus on accuracy and explainability, enterprise features | Product Manager |
+| **Regulatory changes (AI laws)** | Medium | Low | Legal review, compliance monitoring | Legal/Compliance |
+| **Intellectual property disputes** | Medium | Low | Proper licensing of datasets, patent review | Legal |
+
+**12.4 Research Risks**
+
+| **Risk** | **Impact** | **Probability** | **Mitigation** | **Owner** |
+| --- | --- | --- | --- | --- |
+| **Unable to detect latest AI models** | High | Medium | Research partnerships, academic collaboration | ML Lead |
+| **Bias in training data** | Medium | Medium | Diverse dataset, fairness audits | ML Lead, PM |
+| **Adversarial attacks on detector** | Medium | Low | Adversarial training, robustness testing | ML Lead |
+
+**13\. Dependencies & Integrations**
+
+**13.1 External Dependencies**
+
+**Critical Dependencies:**
+
+| **Dependency** | **Purpose** | **Version** | **Fallback Plan** |
+| --- | --- | --- | --- |
+| PyTorch | AI model framework | 2.0+ | TensorFlow (alternative) |
+| OpenCV | Image processing | 4.8+ | Pillow + NumPy |
+| PostgreSQL | Database | 15+ | MySQL (alternative) |
+| Redis | Caching & queue | 7+  | Memcached (alternative) |
+| AWS S3 | Image storage | \-  | MinIO (self-hosted) |
+
+**Third-Party Services:**
+
+- **Cloud Provider:** AWS (primary), GCP (backup)
+- **CDN:** Cloudflare
+- **Monitoring:** Datadog or Prometheus/Grafana
+- **Error Tracking:** Sentry
+- **Analytics:** Google Analytics, Mixpanel
+
+**13.2 Integration Targets**
+
+**Phase 1 Integrations:**
+
+- **Zapier:** Workflow automation (connect to 5,000+ apps)
+- **Social Media APIs:** Twitter, Facebook (report fake profiles)
+
+**Phase 2 Integrations:** 3. **Google Drive:** Scan images in drive folders 4. **Slack:** Bot for team verification 5. **CMS Platforms:** WordPress, Drupal plugins
+
+**Enterprise Integrations:**
+
+- Custom API for law enforcement databases
+- Integration with identity verification platforms (Jumio, Onfido)
+- SSO (Single Sign-On) for enterprise (SAML, LDAP)
+
+**14\. Compliance & Legal**
+
+**14.1 Data Privacy Regulations**
+
+**GDPR Compliance (Europe):**
+
+- ✅ User consent for data processing
+- ✅ Right to access personal data
+- ✅ Right to deletion (within 30 days)
+- ✅ Data portability (export in JSON/CSV)
+- ✅ Privacy policy (clear and accessible)
+- ✅ Data Protection Officer (DPO) appointed
+
+**CCPA Compliance (California):**
+
+- ✅ Right to know what data is collected
+- ✅ Right to delete data
+- ✅ Opt-out of data selling (not applicable - we don't sell)
+
+**Other Regulations:**
+
+- COPPA (Children's Online Privacy Protection Act) - No users under 13
+- HIPAA (if used in healthcare) - Not applicable initially
+
+**14.2 Terms of Service**
+
+**Key Clauses:**
+
+- **Acceptable Use Policy:**
+  - No use for illegal activities
+  - No harassment or hate speech
+  - No attempts to reverse-engineer the model
+- **Accuracy Disclaimer:**
+  - System is not 100% accurate
+  - Results are probabilistic, not definitive
+  - Users should verify critical results independently
+- **Liability Limitations:**
+  - Not liable for false positives/negatives
+  - No warranty on service availability
+  - Indemnification for misuse
+- **Data Retention:**
+  - Images deleted after 24 hours (default)
+  - Metadata retained for 30 days
+  - Logs retained for 1 year
+- **API Usage:**
+  - Rate limits enforced
+  - Termination for abuse
+  - No reselling without permission
+
+**14.3 Intellectual Property**
+
+**Open Source Licenses:**
+
+- Use of MIT, Apache 2.0 licensed libraries (compliant)
+- Attribution in documentation
+
+**Proprietary Components:**
+
+- Custom fusion algorithm (patent pending)
+
+Continue
+
+10:10 AM
+
+- Trained model weights (proprietary)
+- Dataset curation process (trade secret)
+
+**User-Generated Content:**
+
+- Users retain ownership of uploaded images
+- We have license to process for service provision only
+- No commercial use of user images
+
+**14.4 Ethical Considerations**
+
+**Bias & Fairness:**
+
+- Regular bias audits
+- Balanced training data across demographics
+- Transparency in limitations
+
+**Dual-Use Concerns:**
+
+- Could be used to improve AI generators (adversarial training)
+- Mitigation: Limit API access, monitor for abuse
+- Responsible disclosure policy for vulnerabilities
+
+**Misinformation:**
+
+- Clear communication that system is probabilistic
+- Encourage human review for critical decisions
+- Partner with fact-checking organizations
+
+**15\. Documentation Requirements**
+
+**15.1 User Documentation**
+
+**Getting Started Guide:**
+
+- Account creation and API key setup
+- First analysis walkthrough (5-minute tutorial)
+- Video demo (2-3 minutes)
+
+**User Manual:**
+
+- Web UI navigation
+- Understanding results (score interpretation)
+- FAQ (20+ common questions)
+- Troubleshooting guide
+
+**API Documentation:**
+
+- OpenAPI/Swagger spec (interactive)
+- Authentication guide
+- Endpoint reference with examples
+- Rate limiting and quotas
+- Error codes and handling
+- Code samples (Python, Node.js, Java, cURL)
+
+**15.2 Developer Documentation**
+
+**Setup Guide:**
+
+- Environment setup (prerequisites)
+- Installation steps (Docker, local)
+- Configuration (environment variables)
+- Running tests
+
+**Architecture Documentation:**
+
+- System architecture diagram
+- Component interaction flow
+- Database schema
+- API architecture (RESTful design)
+
+**Contributing Guide:**
+
+- Code style guidelines
+- Pull request process
+- Testing requirements
+- Documentation standards
+
+**Module Documentation:**
+
+- Each detector module explained
+- Algorithm descriptions
+- Expected input/output
+- Performance characteristics
+
+**15.3 Research Documentation**
+
+**White Paper:**
+
+- Technical methodology
+- Algorithm descriptions (PRNU, FFT, etc.)
+- Experimental results
+- Comparison with existing methods
+- Limitations and future work
+
+**IEEE Paper:**
+
+- Academic publication
+- Peer-reviewed format
+- Mathematical formulations
+- Comprehensive evaluation
+
+**Blog Posts:**
+
+- "How AI-Generated Images Are Detected" (technical deep-dive)
+- "The Challenge of Deepfakes" (industry perspective)
+- "Case Study: Detecting Fake Profiles" (practical application)
+
+**15.4 Operational Documentation**
+
+**Runbooks:**
+
+- Deployment procedures
+- Backup and restore
+- Incident response playbook
+- Model retraining workflow
+
+**Admin Guide:**
+
+- User management
+- API key management
+- System monitoring
+- Performance tuning
+
+**16\. Budget & Resources**
+
+**16.1 Team Requirements**
+
+**Core Team (Phase 1-2):**
+
+| **Role** | **Count** | **Responsibilities** | **Monthly Cost** |
+| --- | --- | --- | --- |
+| **Product Manager** | 1   | Product vision, roadmap, stakeholder management | \$12,000 |
+| **ML Engineers** | 2   | Model training, forensic algorithms, accuracy optimization | \$20,000 |
+| **Backend Developers** | 2   | API development, database, integration | \$16,000 |
+| **Frontend Developer** | 1   | Web UI, visualizations, UX | \$8,000 |
+| **DevOps Engineer** | 1   | Infrastructure, CI/CD, monitoring | \$9,000 |
+| **QA Engineer** | 1   | Testing, quality assurance | \$7,000 |
+| **Technical Writer** | 1   | Documentation, user guides | \$6,000 |
+| **Total** | **9** |     | **\$78,000/month** |
+
+**Phase 3 Additions:**
+
+- Sales/Business Development: \$10,000/month
+- Customer Success: \$6,000/month
+
+**16.2 Infrastructure Costs**
+
+**Development Environment:**
+
+- AWS EC2 (development servers): \$300/month
+- Database (RDS): \$150/month
+- Storage (S3): \$50/month
+- **Total Dev:** ~\$500/month
+
+**Production Environment (Month 6+):**
+
+| **Component** | **Service** | **Monthly Cost** |
+| --- | --- | --- |
+| **Compute** | AWS ECS / EC2 (3-5 instances) | \$1,200 |
+| **GPU Instances** | g4dn.xlarge (2 instances) | \$800 |
+| **Database** | RDS PostgreSQL (Multi-AZ) | \$400 |
+| **Cache** | ElastiCache Redis | \$150 |
+| **Storage** | S3 (1TB) | \$200 |
+| **CDN** | CloudFront | \$100 |
+| **Load Balancer** | Application Load Balancer | \$100 |
+| **Monitoring** | Datadog / CloudWatch | \$200 |
+| **Backups** | Automated snapshots | \$100 |
+| **Total Infra** |     | **~\$3,250/month** |
+
+**Scaling Projections:**
+
+| **Users/Day** | **Monthly Infra Cost** | **Notes** |
+| --- | --- | --- |
+| 100 | \$500 | Development |
+| 1,000 | \$3,250 | Launch (Month 6) |
+| 10,000 | \$8,000 | Growth (Month 12) |
+| 50,000+ | \$20,000+ | Scale (Year 2) |
+
+**16.3 Third-Party Services**
+
+**Tools & SaaS:**
+
+- GitHub (version control): \$0 (free tier initially)
+- Sentry (error tracking): \$100/month
+- Postman (API testing): \$0 (free tier)
+- Figma (design): \$50/month
+- Slack (team communication): \$0 (free tier)
+- Google Workspace (email): \$150/month
+- **Total SaaS:** ~\$300/month
+
+**16.4 One-Time Costs**
+
+| **Item** | **Cost** | **Notes** |
+| --- | --- | --- |
+| **Dataset Licensing** | \$5,000 | DALL-E, Midjourney samples |
+| **Legal Setup** | \$3,000 | Terms of Service, Privacy Policy review |
+| **Domain & Branding** | \$500 | Domain registration, logo design |
+| **Security Audit** | \$10,000 | Penetration testing (annual) |
+| **Marketing Launch** | \$5,000 | Product Hunt, ads, PR |
+| **Total One-Time** | **\$23,500** |     |
+
+**16.5 Total Budget Summary (9 Months)**
+
+| **Category** | **Phase 1 (3mo)** | **Phase 2 (3mo)** | **Phase 3 (3mo)** | **Total** |
+| --- | --- | --- | --- | --- |
+| **Team Salaries** | \$234,000 | \$234,000 | \$282,000 | **\$750,000** |
+| **Infrastructure** | \$1,500 | \$9,750 | \$15,000 | **\$26,250** |
+| **Third-Party Services** | \$900 | \$900 | \$900 | **\$2,700** |
+| **One-Time Costs** | \$23,500 | \-  | \-  | **\$23,500** |
+| **Subtotal** | \$259,900 | \$244,650 | \$297,900 | **\$802,450** |
+| **Contingency (15%)** | \$38,985 | \$36,698 | \$44,685 | **\$120,368** |
+| **Grand Total** |     |     |     | **~\$923,000** |
+
+**16.6 Revenue Projections (Year 1)**
+
+**Assumptions:**
+
+- Free tier: 60% of users (no revenue)
+- Pro tier (\$49/month): 35% of users
+- Enterprise (avg \$500/month): 5% of users
+
+**User Growth:**
+
+| **Month** | **Total Users** | **Pro Users** | **Enterprise** | **Monthly Revenue** |
+| --- | --- | --- | --- | --- |
+| 6 (Launch) | 100 | 35  | 5   | \$4,215 |
+| 9   | 500 | 175 | 25  | \$21,075 |
+| 12  | 2,000 | 700 | 100 | \$84,300 |
+
+**Year 1 Total Revenue:** ~\$200,000  
+**Break-even:** Estimated Month 18-24
+
+**17\. Appendices**
+
+**Appendix A: Glossary of Terms**
+
+**AI-Generated Image:** An image created by an artificial intelligence model (e.g., Stable Diffusion, DALL-E) rather than captured by a camera.
+
+**PRNU (Photo Response Non-Uniformity):** A unique noise pattern inherent to every camera sensor, acting as a digital fingerprint.
+
+**FFT (Fast Fourier Transform):** Mathematical transformation that converts spatial domain image data into frequency domain, revealing periodic patterns.
+
+**Diffusion Model:** A type of AI image generation model that starts with noise and iteratively refines it into a coherent image (e.g., Stable Diffusion).
+
+**GAN (Generative Adversarial Network):** A type of AI model consisting of a generator and discriminator that compete to create realistic images.
+
+**EXIF Metadata:** Exchangeable Image File Format data embedded in images, containing camera settings and other information.
+
+**Deepfake:** Synthetic media created using AI, often depicting events or people in fabricated scenarios.
+
+**Catchlight:** The reflection of light sources visible in a subject's eyes, useful for analyzing lighting consistency.
+
+**Specular Reflection:** Mirror-like reflection of light from shiny surfaces (e.g., skin, eyes).
+
+**Facial Landmarks:** Specific points on a face (e.g., eye corners, nose tip) used for analysis and recognition.
+
+**Appendix B: Algorithm Descriptions**
+
+**PRNU Extraction:**
+
+- Apply high-pass filter to remove image content
+- Use wavelet-based denoising (DWT)
+- Extract noise residual
+- Calculate statistical properties (entropy, variance)
+- Compare to expected sensor noise characteristics
+
+**Frequency Analysis (FFT):**
+
+- Convert image to grayscale
+- Apply 2D Fast Fourier Transform
+- Compute magnitude spectrum
+- Detect periodic peaks (indicative of AI artifacts)
+- Analyze frequency decay pattern
+
+**Shadow Geometry:**
+
+- Detect facial landmarks
+- Identify shadow regions using edge detection
+- Calculate gradient directions in shadows
+- Estimate light source position
+- Verify consistency across multiple shadows
+
+**Appendix C: Competitive Analysis**
+
+| **Competitor** | **Strengths** | **Weaknesses** | **Our Advantage** |
+| --- | --- | --- | --- |
+| **AI or Not** | Fast, simple UI | Black-box model, no explainability | Multi-forensic approach, detailed reasoning |
+| **Optic AI** | Good accuracy | Limited to specific AI models | Broader model coverage, continuous updates |
+| **Illuminarty** | Browser extension | Requires upload to third-party | Self-hosted option, privacy-focused |
+| **Hive Moderation** | Enterprise-focused | Expensive, no free tier | Freemium model, accessible to individuals |
+
+**Market Gap:** Most competitors rely solely on deep learning models without explainability. We fill the gap with:
+
+- **Hybrid approach** (forensics + AI)
+- **Explainable results** (court-admissible)
+- **Continuous adaptation** (dataset updates)
+
+**Appendix D: References**
+
+**Research Papers:**
+
+- Marra, F., et al. (2019). "Do GANs Leave Specific Traces?" IEEE WIFS.
+- Lukas, J., et al. (2006). "Digital Camera Identification from Sensor Pattern Noise." IEEE Transactions.
+- Frank, J., et al. (2020). "Leveraging Frequency Analysis for Deep Fake Image Recognition." ICML.
+- Wang, S., et al. (2020). "CNN-generated Images Are Surprisingly Easy to Spot... For Now." CVPR.
+
+**Industry Resources:**
+
+- Anthropic AI Safety Research
+- OpenAI Detection Tools Documentation
+- Stability AI Technical Papers
+- NIST Digital Forensics Guidelines
+
+**Appendix E: Change Log**
+
+| **Version** | **Date** | **Changes** | **Author** |
+| --- | --- | --- | --- |
+| 0.1 | 2026-01-15 | Initial draft | Product Team |
+| 0.5 | 2026-02-01 | Added technical architecture, testing requirements | ML Lead |
+| 1.0 | 2026-02-07 | Complete PRD with all sections, ready for review | Product Manager |
+
+**18\. Approval & Sign-off**
+
+| **Role** | **Name** | **Signature** | **Date** |
+| --- | --- | --- | --- |
+| **Product Manager** |     |     |     |
+| **Engineering Lead** |     |     |     |
+| **ML Lead** |     |     |     |
+| **Security Lead** |     |     |     |
+| **Legal/Compliance** |     |     |     |
+| **Executive Sponsor** |     |     |     |
+
+**Document Status:** Draft - Pending Approval  
+**Next Review Date:** February 14, 2026  
+**Contact:** [product@aidetector.com](mailto:product@aidetector.com)
+
+**END OF DOCUMENT**
+
+This PRD is a living document and will be updated as the project evolves. All changes will be tracked in the change log (Appendix E).
