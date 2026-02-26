@@ -8,6 +8,8 @@ from ai_model.predict import load_model, predict_single
 from detectors.prnu_detector import calculate_prnu_score
 from detectors.frequency_analysis import calculate_artifact_score
 from detectors.pixel_noise import compute_naturalness_score
+from detectors.multi_scale_noise import MultiScaleNoiseAnalyzer
+from detectors.gan_fingerprint import GANFingerprintDetector
 from fusion.decision_engine import DecisionEngine
 
 router = APIRouter()
@@ -47,6 +49,11 @@ def _process_image_file(image_file, filename):
         from detectors.facial_consistency import compute_facial_score
         from detectors.shadow_geometry import compute_shadow_score
         from detectors.specular_reflection import compute_reflection_score
+        
+        from detectors.deep_feature_inconsistency import DeepFeatureAnalyzer
+        from detectors.local_artifact_detector import LocalArtifactDetector
+        from detectors.compression_history import CompressionHistoryAnalyzer
+        from preprocessing.face_detection import extract_landmarks
 
         # Detector Scores
         prnu = calculate_prnu_score(temp_path)
@@ -54,21 +61,59 @@ def _process_image_file(image_file, filename):
         freq_aligned = 1.0 - freq_artifact if freq_artifact is not None else None
         pixel = compute_naturalness_score(temp_path)
         
+        # Load image once for array-based detectors
+        import cv2
+        import numpy as np
+        img_cv = cv2.imread(temp_path)
+        img_rgb = cv2.cvtColor(img_cv, cv2.COLOR_BGR2RGB) if img_cv is not None else np.zeros((224,224,3), dtype=np.uint8)
+
+        # Phase 1 Major Improvement Plan Detectors
+        multi_scale_noise_analyzer = MultiScaleNoiseAnalyzer()
+        ms_noise_result = multi_scale_noise_analyzer.analyze(temp_path)
+        ms_noise_score = ms_noise_result['natural_noise_score']
+        
+        gan_fingerprint_detector = GANFingerprintDetector()
+        gan_result = gan_fingerprint_detector.analyze(temp_path)
+        gan_score = gan_result['gan_fingerprint_score']
+        gan_aligned = 1.0 - gan_score if gan_score is not None else None
+        
         # Phase 2 metrics
         metadata = compute_metadata_score(temp_path)
         facial = compute_facial_score(temp_path)
         shadow = compute_shadow_score(temp_path)
         reflection = compute_reflection_score(temp_path)
+
+        # New Phase 3 metrics
+        deep_analyzer = DeepFeatureAnalyzer()
+        deep_result = deep_analyzer.analyze(img_rgb)
+        deep_aligned = 1.0 - deep_result['inconsistency_score']
+
+        local_detector = LocalArtifactDetector()
+        try:
+            landmarks = extract_landmarks(img_rgb)
+            local_result = local_detector.analyze(img_rgb, landmarks)
+            local_aligned = 1.0 - local_result['local_artifact_score']
+        except Exception:
+            local_aligned = None
+
+        comp_analyzer = CompressionHistoryAnalyzer()
+        comp_result = comp_analyzer.analyze_jpeg_artifacts(temp_path)
+        comp_aligned = comp_result['compression_score'] # higher compression = real
         
         scores_dict = {
             'prnu': prnu,
             'frequency': freq_aligned,
             'pixel_noise': pixel,
+            'multi_scale_noise': ms_noise_score,
+            'gan_fingerprint': gan_aligned,
             'facial': facial,
             'shadow': shadow,
             'reflection': reflection,
             'metadata': metadata,
-            'ai_model': ai_model_aligned
+            'ai_model': ai_model_aligned,
+            'deep_features': deep_aligned,
+            'local_artifacts': local_aligned,
+            'compression': comp_aligned
         }
         
         # Fuse and Classify

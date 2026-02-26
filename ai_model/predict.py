@@ -4,8 +4,15 @@ from PIL import Image
 from ai_model.model import AIDetectorModel
 
 def load_model(checkpoint_path, device='cpu'):
-    model = AIDetectorModel(base='resnet50', num_classes=2)
-    model.load_state_dict(torch.load(checkpoint_path, map_location=device))
+    state_dict = torch.load(checkpoint_path, map_location=device)
+    keys = list(state_dict.keys())
+    
+    # Simple heuristic to detect ResNet50 vs EfficientNet
+    is_resnet = any('layer1' in str(k) or 'fc.' in str(k) or 'conv1.' in str(k) for k in keys)
+    
+    base = 'resnet50' if is_resnet else 'efficientnet_b7'
+    model = AIDetectorModel(base=base, num_classes=2)
+    model.load_state_dict(state_dict)
     model.to(device)
     model.eval()
     return model

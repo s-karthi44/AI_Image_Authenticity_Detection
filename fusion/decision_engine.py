@@ -2,14 +2,19 @@ class DecisionEngine:
     def __init__(self, weights=None):
         if weights is None:
             self.weights = {
-                'prnu': 0.20,
-                'frequency': 0.15,
-                'pixel_noise': 0.10,
-                'facial': 0.10,
-                'shadow': 0.10,
-                'reflection': 0.10,
+                'multi_scale_noise': 0.20,
+                'gan_fingerprint': 0.20,
+                'deep_features': 0.15,
+                'local_artifacts': 0.10,
+                'compression': 0.05,
+                'prnu': 0.08,
+                'frequency': 0.05,
+                'pixel_noise': 0.02,
+                'facial': 0.02,
+                'shadow': 0.02,
+                'reflection': 0.01,
                 'metadata': 0.05,
-                'ai_model': 0.20
+                'ai_model': 0.05
             }
         else:
             self.weights = weights
@@ -59,6 +64,41 @@ class DecisionEngine:
     def generate_reasoning(self, scores, verdict):
         reasoning = []
         
+        noise = scores.get('multi_scale_noise')
+        if noise is not None:
+            if noise < 0.3:
+                reasoning.append("Artificial or missing noise patterns across scales")
+            elif noise > 0.7:
+                reasoning.append("Natural camera noise detected at multiple scales")
+
+        gan = scores.get('gan_fingerprint')
+        if gan is not None:
+            if gan < 0.3:
+                reasoning.append("GAN upsampling, frequency artifacts, or color bleeding detected")
+            elif gan > 0.7:
+                reasoning.append("No common GAN fingerprints detected")
+                
+        deep = scores.get('deep_features')
+        if deep is not None:
+            if deep < 0.3:
+                reasoning.append("Semantic inconsistencies or impossible combinations detected")
+            elif deep > 0.7:
+                reasoning.append("Semantically consistent structural features")
+
+        local = scores.get('local_artifacts')
+        if local is not None:
+            if local < 0.3:
+                reasoning.append("Local artifacts found in fine structural details")
+            elif local > 0.7:
+                reasoning.append("Natural fine structural details observed")
+
+        comp = scores.get('compression')
+        if comp is not None:
+            if comp < 0.3:
+                reasoning.append("Single or anomalous compression history")
+            elif comp > 0.7:
+                reasoning.append("Natural multi-stage compression history")
+
         prnu = scores.get('prnu')
         if prnu is not None:
             if prnu < 0.3:
@@ -68,9 +108,9 @@ class DecisionEngine:
                 
         freq = scores.get('frequency')
         if freq is not None:
-            if freq > 0.7:
+            if freq < 0.3:
                 reasoning.append("Frequency artifacts characteristic of AI generation observed")
-            elif freq < 0.3:
+            elif freq > 0.7:
                 reasoning.append("Smooth natural frequency decay observed")
                 
         facial = scores.get('facial')
@@ -108,9 +148,9 @@ class DecisionEngine:
                 
         ai_model = scores.get('ai_model')
         if ai_model is not None:
-            if ai_model > 0.8:
+            if ai_model < 0.2:
                 reasoning.append("Strong AI fingerprint detected by neural network")
-            elif ai_model < 0.2:
+            elif ai_model > 0.8:
                 reasoning.append("CNN model confirms natural photographic features")
                 
         # Default reasoning if empty

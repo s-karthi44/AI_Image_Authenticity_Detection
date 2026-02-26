@@ -144,7 +144,7 @@ def train_model(train_loader, val_loader, epochs=10, learning_rate=0.001):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    model = AIDetectorModel(base='resnet50', num_classes=2)
+    model = AIDetectorModel(base='efficientnet_b7', num_classes=2)
     model.to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -210,7 +210,7 @@ def train_model(train_loader, val_loader, epochs=10, learning_rate=0.001):
 def evaluate_model(test_loader, model=None, model_path=None):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if model is None and model_path:
-        model = AIDetectorModel(base='resnet50', num_classes=2)
+        model = AIDetectorModel(base='efficientnet_b7', num_classes=2)
         model.load_state_dict(torch.load(model_path, map_location=device))
         model.to(device)
     elif model:

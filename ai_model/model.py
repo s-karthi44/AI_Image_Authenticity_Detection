@@ -14,6 +14,10 @@ class AIDetectorModel(nn.Module):
             num_features = self.backbone.fc.in_features
             # Replace the final fully connected layer
             self.backbone.fc = nn.Linear(num_features, num_classes)
+        elif base == 'efficientnet_b7':
+            self.backbone = models.efficientnet_b7(pretrained=True)
+            num_features = self.backbone.classifier[1].in_features
+            self.backbone.classifier[1] = nn.Linear(num_features, num_classes)
         else:
             raise NotImplementedError(f"Base model {base} not implemented")
 
